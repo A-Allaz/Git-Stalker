@@ -1,10 +1,10 @@
-#ifndef __BLOCK_H__
-#define __BLOCK_H__
+#ifndef __INSTRUCTION_H__
+#define __INSTRUCTION_H__
 
 #include <variant>
 #include "../file/file.h"
+#include "../block/block.h"
 #include "../function/function.h"
-#include "../instruction/instruction.h"
 
 class Instruction {
     private:
