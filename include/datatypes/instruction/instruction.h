@@ -14,8 +14,8 @@ class Instruction {
         unsigned line_number;
 
     public:
-        Instruction(){}
-        ~Instruction(){}
+        Instruction(File* file, std::variant<Instruction, Block, Function, File>* mapped_to, unsigned int line_number, Block* block = nullptr);
+        ~Instruction();
 
         File* get_file() const { return file; };
         Block* get_block() const { return block; };

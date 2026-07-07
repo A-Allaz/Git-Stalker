@@ -1,6 +1,10 @@
 # Git-Stalker
 GIT-STALKER is a git tracker made to identify and sort in chronological order the changes made in a given git repository "REPO A", and map them to an other repository "REPO B" allowing to maintain both repository without a need for a fork or other duplication method. This also allows for 2 ethods in the repos, with different names but same logic to be mapped to each other
 
+# Supported Languages
+
+## Typescript
+
 # TO-DO
  - [ ] File class: name, mapped_to file (optional)
  - [ ] Instruction class: file, line, mapped_to line (optional)

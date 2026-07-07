@@ -11,15 +11,13 @@ class File {
     private:
         std::string file_name;
         std::variant<Instruction, Block, Function, File>* mapped_to;
-        Block* blocks;
 
     public:
-        File(){}
-        ~File(){}
+        File(std::string name, std::variant<Instruction, Block, Function, File>* mapped_to);
+        ~File();
 
         std::string get_name() const { return file_name; };
         std::variant<Instruction, Block, Function, File>* get_mapped() const { return mapped_to; };
-        Block* get_blocks() const { return blocks; };
 };
 
 #endif

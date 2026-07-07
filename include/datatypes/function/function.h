@@ -7,19 +7,17 @@
 
 class Function {
     private:
-        File file;
+        File* file;
         std::string function_name;
         std::variant<Instruction, Block, Function, File>* mapped_to;
-        Block* blocks;
 
     public:
-        Function(){}
-        ~Function(){}
+        Function(File* file, std::string name, std::variant<Instruction, Block, Function, File>* mapped_to);
+        ~Function();
 
-        File get_file() const { return file; };
+        File* get_file() const { return file; };
         std::string get_function_name() const { return function_name; };
         std::variant<Instruction, Block, Function, File>* get_mapped() const { return mapped_to; };
-        Block* get_blocks() const { return blocks; };
 };
 
 #endif
