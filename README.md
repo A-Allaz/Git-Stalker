@@ -7,6 +7,6 @@ GIT-STALKER is a git tracker made to identify and sort in chronological order th
  - [ ] Block class: starting line, ending line, instruction array
  - [ ] Function class: name, file, origin, mapped_to (optional), starting line, ending line, instructions array (sorted) and/or block array (sorted)
 
- - [ ] CLI interface: selecting repos (scanning file system), mapping interface (GIT-STALKER parses the repos an propose a mapping interface in the CLI) 
+ - [ ] CLI interface: selecting repos (scanning file system), mapping interface (GIT-STALKER parses the repos and propose a mapping interface in the CLI) 
  - [ ] Mapping data structure and file extension (one mapping file per origin file)
  - [ ] History (storage) system
