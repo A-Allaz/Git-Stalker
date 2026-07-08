@@ -8,6 +8,10 @@
 namespace fs = std::filesystem;
 
 std::vector<Repository*> parse_repositories(){
+    std::vector<Repository*> repositories;
+
+    
+
     return;
 };
 

@@ -6,8 +6,8 @@ GIT-STALKER is a git tracker made to identify and sort in chronological order th
 ## Typescript
 
 # TO-DO
- - [ ] File class: name, mapped_to file (optional)
- - [ ] Function class: name, file, origin, mapped_to (optional), starting line, ending line
+ - [x] File class: name, mapped_to file (optional)
+ - [x] Function class: name, file, origin, mapped_to (optional), starting line, ending line
 
  - [ ] CLI interface: selecting repos (scanning file system), mapping interface (GIT-STALKER parses the repos and propose a mapping interface in the CLI) 
  - [ ] Mapping data structure and file extension (one mapping file per origin file)
