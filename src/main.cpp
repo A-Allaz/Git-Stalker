@@ -1,7 +1,7 @@
 #ifndef __MAIN_CPP__
 #define __MAIN_CPP__
 
-#include "./parser/file_parser.cpp"
+#include "./parser/repository_parser.cpp"
 
 int main(){
     // Retrieve available repositories
