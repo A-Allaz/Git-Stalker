@@ -1,7 +1,7 @@
 #ifndef __REPOSITORY_CPP__
 #define __REPOSITORY_CPP__
 
-#include "../../include/repository/repository.h"
+#include "../../include/datatypes/repository/repository.h"
 
 Repository::Repository(std::string name, std:: string location, Repository* mapped_to){
     this->repository_name = name;
