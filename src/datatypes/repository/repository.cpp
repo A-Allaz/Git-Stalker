@@ -11,4 +11,9 @@ Repository::Repository(std::string name, std:: string location, Repository* mapp
 
 Repository::~Repository(){};
 
+std::ostream& Repository::operator<<(std::ostream& os){
+    os << this->get_repository_name() + " at " + this->get_location();
+    return os;
+}
+
 #endif

@@ -1,21 +1,45 @@
-CXX      = g++
-CXXFLAGS = -Wall -Iinclude/datatypes/file -Iinclude/datatypes/function -Iinclude/datatypes/repository
+CXX      := g++
+CPPFLAGS := -Iinclude
+CXXFLAGS := -Wall -Wextra -std=c++17 -MMD -MP
 
-VPATH = src/datatypes/file:src/datatypes/function:src/interface:src/mapper:src/datatypes/repository:src/storage:src
+TARGET := git-stalker
 
-HEADERS = include/datatypes/file/file.h include/datatypes/function/function.h include/datatypes/mapping/mapped_type.h include/datatypes/repository/repository.h
+VPATH := \
+	src \
+	src/datatypes/file \
+	src/datatypes/function \
+	src/datatypes/repository \
+	src/interface \
+	src/mapper \
+	src/parser \
+	src/storage
 
-OBJ = main.o file.o function.o interface.o mapper.o repository.o storage.o
+OBJ := \
+	main.o \
+	file.o \
+	function.o \
+	repository.o \
+	interface.o \
+	debug.o \
+	mapper.o \
+	repository_parser.o \
+	storage.o
 
-build: $(OBJ)
-	$(CXX) -o git-stalker $(OBJ)
+DEP := $(OBJ:.o=.d)
+
+.PHONY: all build clean
+
+all: build
+
+build: $(TARGET)
+
+$(TARGET): $(OBJ)
+	$(CXX) $(OBJ) -o $@
+
+%.o: %.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+
+-include $(DEP)
 
 clean:
-	rm -f $(OBJ) git-stalker
-
-# Generic pattern rule: every .o depends on ALL headers,
-# even ones it doesn't actually need.
-%.o: %.cpp $(HEADERS)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-.PHONY: build clean
+	rm -f $(OBJ) $(DEP) $(TARGET)

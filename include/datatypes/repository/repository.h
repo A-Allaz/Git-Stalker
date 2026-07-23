@@ -10,12 +10,15 @@ class Repository {
         Repository* mapped_to;
 
     public:
+        // Constructor-Destructor
         Repository(std::string name, std::string location, Repository* mapped_to);
         ~Repository();
-
+        // Getters-Setters
         std::string get_repository_name(){ return repository_name; };
         std::string get_location(){ return location; };
         Repository* get_mapped_to_repository(){ return mapped_to; };
+        // Overrides
+        std::ostream& operator<<(std::ostream& os);
 };
 
 #endif
