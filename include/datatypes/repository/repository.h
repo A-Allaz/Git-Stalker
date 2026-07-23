@@ -17,8 +17,10 @@ class Repository {
         std::string get_repository_name(){ return repository_name; };
         std::string get_location(){ return location; };
         Repository* get_mapped_to_repository(){ return mapped_to; };
-        // Overrides
-        std::ostream& operator<<(std::ostream& os);
+
+        void set_mapped_to(Repository* repository){ this->mapped_to = repository; };
 };
+
+std::ostream& operator<<(std::ostream& os, Repository repository);
 
 #endif

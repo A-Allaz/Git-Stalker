@@ -63,3 +63,6 @@ compile_commands.json
 
 # vscode
 .vscode
+
+#logs
+.logs
