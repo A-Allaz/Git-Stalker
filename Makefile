@@ -2,7 +2,8 @@ CXX      := g++
 CPPFLAGS := -Iinclude
 CXXFLAGS := -Wall -Wextra -std=c++17 -MMD -MP
 
-TARGET := git-stalker
+TARGET    := git-stalker
+BUILD_DIR := .build
 
 VPATH := \
 	src \
@@ -14,7 +15,7 @@ VPATH := \
 	src/parser \
 	src/storage
 
-OBJ := \
+OBJECT_NAMES := \
 	main.o \
 	file.o \
 	function.o \
@@ -25,6 +26,7 @@ OBJ := \
 	repository_parser.o \
 	storage.o
 
+OBJ := $(addprefix $(BUILD_DIR)/,$(OBJECT_NAMES))
 DEP := $(OBJ:.o=.d)
 
 .PHONY: all build clean
@@ -36,10 +38,13 @@ build: $(TARGET)
 $(TARGET): $(OBJ)
 	$(CXX) $(OBJ) -o $@
 
-%.o: %.cpp
+$(BUILD_DIR)/%.o: %.cpp | $(BUILD_DIR)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+
+$(BUILD_DIR):
+	mkdir -p $@
 
 -include $(DEP)
 
 clean:
-	rm -f $(OBJ) $(DEP) $(TARGET)
+	rm -rf $(BUILD_DIR) $(TARGET)
