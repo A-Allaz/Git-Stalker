@@ -1,9 +1,9 @@
 CXX      = g++
-CXXFLAGS = -Wall -Iinclude/datatypes/file -Iinclude/datatypes/function -Iinclude/repository
+CXXFLAGS = -Wall -Iinclude/datatypes/file -Iinclude/datatypes/function -Iinclude/datatypes/repository
 
-VPATH = src/datatypes/file:src/datatypes/function:src/interface:src/mapper:src/repository:src/storage:src
+VPATH = src/datatypes/file:src/datatypes/function:src/interface:src/mapper:src/datatypes/repository:src/storage:src
 
-HEADERS = include/datatypes/file/file.h include/datatypes/function/function.h include/repository/repository.h
+HEADERS = include/datatypes/file/file.h include/datatypes/function/function.h include/datatypes/mapping/mapped_type.h include/datatypes/repository/repository.h
 
 OBJ = main.o file.o function.o interface.o mapper.o repository.o storage.o
 
