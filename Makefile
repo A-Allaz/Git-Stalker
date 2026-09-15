@@ -11,9 +11,10 @@ VPATH := \
 	src/datatypes/function \
 	src/datatypes/repository \
 	src/interface \
+	src/interface/selectors \
 	src/mapper \
 	src/parser \
-	src/storage
+	src/storage 
 
 OBJECT_NAMES := \
 	main.o \
@@ -24,7 +25,8 @@ OBJECT_NAMES := \
 	debug.o \
 	mapper.o \
 	repository_parser.o \
-	storage.o
+	storage.o \
+	repository_selector.o
 
 OBJ := $(addprefix $(BUILD_DIR)/,$(OBJECT_NAMES))
 DEP := $(OBJ:.o=.d)
