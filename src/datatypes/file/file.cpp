@@ -1,7 +1,7 @@
 #ifndef __FILE_CPP__
 #define __FILE_CPP__
 
-#include "../../../include/datatypes/file/file.h"
+#include <file/file.h>
 
 File::File(std::string name, Repository* repository, MappedType mapped_to){
     this->file_name = name;

@@ -7,7 +7,7 @@
 #define __DEBUG_CPP__
 
 #include <iostream>
-#include "../../include/interface/debug.h"
+#include <interface/debug.h>
 
 void print_repository(Repository* repository){
     std::cout << repository->get_repository_name() << std::endl;

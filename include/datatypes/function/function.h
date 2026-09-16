@@ -2,7 +2,7 @@
 #define __FUNCTION_H__
 
 #include <string>
-#include "../mapping/mapped_type.h"
+#include <mapping/mapped_type.h>
 
 class Function {
     private:

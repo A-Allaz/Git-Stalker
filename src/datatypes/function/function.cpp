@@ -1,7 +1,7 @@
 #ifndef __FUNCTION_CPP__
 #define __FUNCTION_CPP__
 
-#include "../../../include/datatypes/function/function.h"
+#include <function/function.h>
 
 Function::Function(File* file, std::string name, MappedType mapped_to, unsigned int starting_line, unsigned int ending_line){
     this->file = file;

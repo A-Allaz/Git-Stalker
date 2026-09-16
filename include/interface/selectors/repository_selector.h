@@ -2,7 +2,7 @@
 #define __REPO_SELECTOR_H__
 
 #include <iostream>
-#include "../../datatypes/repository/repository.h"
+#include <repository/repository.h>
 
 #include "ftxui/component/app.hpp"                // for App
 #include "ftxui/component/captured_mouse.hpp"     // for ftxui

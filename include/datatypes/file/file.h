@@ -2,8 +2,8 @@
 #define __FILE_H__
 
 #include <string>
-#include "../mapping/mapped_type.h"
-#include "../repository/repository.h"
+#include <mapping/mapped_type.h>
+#include <repository/repository.h>
 
 class File {
     private:

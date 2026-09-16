@@ -7,7 +7,7 @@
 #define __DEBUG_H__
 
 #include <vector>
-#include "../datatypes/repository/repository.h"
+#include <repository/repository.h>
 
 void print_repository(Repository* repository);
 

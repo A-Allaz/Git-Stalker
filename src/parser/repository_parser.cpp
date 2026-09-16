@@ -1,10 +1,10 @@
-#ifndef __FILE_PARSER_CPP__
-#define __FILE_PARSER_CPP__
+#ifndef __REPOSITORY_PARSER_CPP__
+#define __REPOSITORY_PARSER_CPP__
 
 #include<iostream>
 #include <filesystem>
 #include <algorithm>
-#include "../../include/parser/repository_parser.h"
+#include <parser/repository_parser.h>
 
 namespace fs = std::filesystem;
 
