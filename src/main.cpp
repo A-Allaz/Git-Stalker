@@ -7,11 +7,7 @@
 #include <interface/selectors/repository_selector.h>
 
 int main(){
-    // std::freopen(".logs", "w", stdout);
-
-    // Retrieve available repositories
     const std::vector<Repository*> available_repositories = parse_repositories();
-    // print_repositories(available_repositories);
 
     ftxui::App screen = ftxui::App::TerminalOutput();
 
