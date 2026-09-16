@@ -1,5 +1,5 @@
-#ifndef __FILE_PARSER_H__
-#define __FILE_PARSER_H__
+#ifndef __REPOSITORY_PARSER_H__
+#define __REPOSITORY_PARSER_H__
 
 #include <vector>
 #include "../datatypes/repository/repository.h"
