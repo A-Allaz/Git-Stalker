@@ -8,7 +8,10 @@
 #include "ftxui/component/captured_mouse.hpp"     // for ftxui
 #include "ftxui/component/component.hpp"          // for Menu
 #include "ftxui/component/component_options.hpp"  // for MenuOption
+#include "ftxui/dom/elements.hpp"                 // for hbox
 
-Repository* select_repository(std::vector<Repository*> repositories);
+ftxui::Component repository_selector(std::vector<std::string> &repositories_names, ftxui::App &screen, int &selector);
+
+std::vector<Repository*> select_repositories(std::vector<std::vector<Repository*>> repositories_list, ftxui::App &screen, std::vector<int> &selectors);
 
 #endif

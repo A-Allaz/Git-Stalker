@@ -13,10 +13,10 @@ void print_repository(Repository* repository){
     std::cout << repository->get_repository_name() << std::endl;
 }
 
-void print_repositories(std::vector<Repository*> repositories){
-    std::cout << "Parsed Repositories: " << std::endl;
+void print_repositories(std::vector<Repository*> repositories, std::string message){
+    std::cout << message << std::endl;
 
-    for(unsigned int i = 0; i < repositories.size(); i++){
+    for(std::size_t i = 0; i < repositories.size(); i++){
         std::cout << "(" << i << ") " << repositories[i]->get_repository_name() << std::endl;
     }
 

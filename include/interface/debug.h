@@ -11,6 +11,6 @@
 
 void print_repository(Repository* repository);
 
-void print_repositories(std::vector<Repository*> repositories);
+void print_repositories(std::vector<Repository*> repositories, std::string message="list of repositories: ");
 
 #endif
