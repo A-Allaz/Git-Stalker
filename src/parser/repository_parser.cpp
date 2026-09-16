@@ -4,7 +4,7 @@
 #include<iostream>
 #include <filesystem>
 #include <algorithm>
-#include "../../include/parser/repository_parser.h"
+#include <parser/repository_parser.h>
 
 namespace fs = std::filesystem;
 

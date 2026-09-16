@@ -1,7 +1,7 @@
 #ifndef __REPO_SELECTOR_CPP__
 #define __REPO_SELECTOR_CPP__
 
-#include "../../../include/interface/selectors/repository_selector.h"
+#include <selectors/repository_selector.h>
 
 ftxui::Component repository_selector(std::vector<std::string> &repositories_names, ftxui::App &screen, int &selector){
     ftxui::MenuOption option;

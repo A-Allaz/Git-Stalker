@@ -1,6 +1,6 @@
 CC		 := gcc
 CXX      := g++
-CPPFLAGS := -Iinclude
+CPPFLAGS := -Iinclude -Iinclude/datatypes -Iinclude/interface
 CFLAGS   := -Wall -Wextra -std=c11 -D_POSIX_C_SOURCE=200112L -D_DEFAULT_SOURCE
 CXXFLAGS := -Wall -Wextra -std=c++17 -MMD -MP
 
@@ -10,6 +10,8 @@ BUILD_DIR := .build
 VPATH := \
 	src \
 	src/datatypes/file \
+	src/datatypes/repository \
+	src/datatypes/function \
 	src/datatypes/function \
 	src/datatypes/repository \
 	src/interface \

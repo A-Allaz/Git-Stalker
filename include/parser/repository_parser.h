@@ -2,7 +2,7 @@
 #define __REPOSITORY_PARSER_H__
 
 #include <vector>
-#include "../datatypes/repository/repository.h"
+#include <repository/repository.h>
 
 std::vector<Repository*> parse_repositories();
 
