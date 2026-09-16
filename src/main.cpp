@@ -21,7 +21,12 @@ int main(){
         selectors.push_back(0);
     }
 
-    select_repositories(repo_list, screen, selectors);
+    std::vector<Repository*> selected_repositories = select_repositories(repo_list, screen, selectors);
+    print_repositories(selected_repositories);
+
+    selected_repositories[0]->set_mapped_to(selected_repositories[1]);
+
+    std::cout << "repository " << selected_repositories[0]->get_repository_name() << " was mapped to repository " << selected_repositories[0]->get_mapped_to_repository()->get_repository_name() << std::endl;
 
     return 0;
 };
