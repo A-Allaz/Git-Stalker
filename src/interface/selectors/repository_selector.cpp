@@ -3,7 +3,9 @@
 
 #include <selectors/repository_selector.h>
 
-ftxui::Component repository_selector(std::vector<std::string> &repositories_names, ftxui::App &screen, int &selector){
+using namespace std;
+
+ftxui::Component repository_selector(vector<string> &repositories_names, ftxui::App &screen, int &selector){
     ftxui::MenuOption option;
     option.on_enter = screen.ExitLoopClosure();
     ftxui::Component menu = ftxui::Menu(&repositories_names, &selector, option);
@@ -11,23 +13,23 @@ ftxui::Component repository_selector(std::vector<std::string> &repositories_name
     return menu;
 };
 
-std::vector<Repository*> select_repositories(std::vector<std::vector<Repository*>> repositories_list, ftxui::App &screen, std::vector<int> &selectors){
+vector<Repository*> select_repositories(vector<vector<Repository*>> repositories_list, ftxui::App &screen, vector<int> &selectors){
 
     if(repositories_list.size() != selectors.size()){
-        throw std::invalid_argument("Repository list and selector list must have the same size");
+        throw invalid_argument("Repository list and selector list must have the same size");
     }
     
-    std::vector<ftxui::Component> menus;
+    vector<ftxui::Component> menus;
     ftxui::Component container;
-    std::vector<std::vector<std::string>> repositories_names_list(repositories_list.size());
-    std::vector<Repository*> selected_repositories;
+    vector<vector<string>> repositories_names_list(repositories_list.size());
+    vector<Repository*> selected_repositories;
 
     menus.reserve(repositories_list.size());
 
-    for(std::size_t i = 0; i < repositories_list.size(); i++){
-        std::vector<std::string> repositories_names;
+    for(size_t i = 0; i < repositories_list.size(); i++){
+        vector<string> repositories_names;
 
-        for(std::size_t j = 0; j < repositories_list[i].size(); j++){
+        for(size_t j = 0; j < repositories_list[i].size(); j++){
             repositories_names.push_back(repositories_list[i][j]->get_repository_name());
         }
 
@@ -41,7 +43,7 @@ std::vector<Repository*> select_repositories(std::vector<std::vector<Repository*
     auto renderer = ftxui::Renderer(container, [&] {
         ftxui::Elements menu_boxes;
 
-        for(std::size_t i = 0; i < menus.size(); i++){
+        for(size_t i = 0; i < menus.size(); i++){
             menu_boxes.push_back(menus[i]->Render()|
             ftxui::frame |
             ftxui::size(ftxui::HEIGHT, ftxui::LESS_THAN, 30));
@@ -52,7 +54,7 @@ std::vector<Repository*> select_repositories(std::vector<std::vector<Repository*
 
     screen.Loop(renderer);
 
-    for(std::size_t i = 0; i < repositories_list.size(); i++){
+    for(size_t i = 0; i < repositories_list.size(); i++){
         selected_repositories.push_back(repositories_list[i][selectors[i]]);
     }
 

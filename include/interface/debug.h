@@ -9,8 +9,10 @@
 #include <vector>
 #include <repository/repository.h>
 
+using namespace std;
+
 void print_repository(Repository* repository);
 
-void print_repositories(std::vector<Repository*> repositories, std::string message="list of repositories: ");
+void print_repositories(vector<Repository*> repositories, string message="list of repositories: ");
 
 #endif

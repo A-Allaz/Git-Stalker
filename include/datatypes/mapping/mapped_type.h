@@ -3,9 +3,11 @@
 
 #include <variant>
 
+using namespace std;
+
 class File;
 class Function;
 
-using MappedType = std::variant<Function*, File*>;
+using MappedType = variant<Function*, File*>;
 
 #endif
