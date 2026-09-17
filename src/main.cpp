@@ -6,23 +6,25 @@
 #include <interface/debug.h>
 #include <interface/selectors/repository_selector.h>
 
+using namespace std;
+
 int main(){
-    const std::vector<Repository*> available_repositories = parse_repositories();
+    const vector<Repository*> available_repositories = parse_repositories();
 
     ftxui::App screen = ftxui::App::TerminalOutput();
 
-    std::vector<std::vector<Repository*>> repo_list = {available_repositories, available_repositories};
-    std::vector<int> selectors;
-    for(std::size_t i = 0; i < repo_list.size(); i++) {
+    vector<vector<Repository*>> repo_list = {available_repositories, available_repositories};
+    vector<int> selectors;
+    for(size_t i = 0; i < repo_list.size(); i++) {
         selectors.push_back(0);
     }
 
-    std::vector<Repository*> selected_repositories = select_repositories(repo_list, screen, selectors);
+    vector<Repository*> selected_repositories = select_repositories(repo_list, screen, selectors);
     print_repositories(selected_repositories);
 
     selected_repositories[0]->set_mapped_to(selected_repositories[1]);
 
-    std::cout << "repository " << selected_repositories[0]->get_repository_name() << " was mapped to repository " << selected_repositories[0]->get_mapped_to_repository()->get_repository_name() << std::endl;
+    cout << "repository " << selected_repositories[0]->get_repository_name() << " was mapped to repository " << selected_repositories[0]->get_mapped_to_repository()->get_repository_name() << endl;
 
     return 0;
 };

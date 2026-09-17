@@ -4,6 +4,8 @@
 #include <vector>
 #include <repository/repository.h>
 
-std::vector<Repository*> parse_repositories();
+using namespace std;
+
+vector<Repository*> parse_repositories();
 
 #endif

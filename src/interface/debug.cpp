@@ -9,15 +9,17 @@
 #include <iostream>
 #include <interface/debug.h>
 
+using namespace std;
+
 void print_repository(Repository* repository){
-    std::cout << repository->get_repository_name() << std::endl;
+    cout << repository->get_repository_name() << endl;
 }
 
-void print_repositories(std::vector<Repository*> repositories, std::string message){
-    std::cout << message << std::endl;
+void print_repositories(vector<Repository*> repositories, string message){
+    cout << message << endl;
 
-    for(std::size_t i = 0; i < repositories.size(); i++){
-        std::cout << "(" << i << ") " << repositories[i]->get_repository_name() << std::endl;
+    for(size_t i = 0; i < repositories.size(); i++){
+        cout << "(" << i << ") " << repositories[i]->get_repository_name() << endl;
     }
 
     return;

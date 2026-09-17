@@ -10,8 +10,10 @@
 #include "ftxui/component/component_options.hpp"  // for MenuOption
 #include "ftxui/dom/elements.hpp"                 // for hbox
 
-ftxui::Component repository_selector(std::vector<std::string> &repositories_names, ftxui::App &screen, int &selector);
+using namespace std;
 
-std::vector<Repository*> select_repositories(std::vector<std::vector<Repository*>> repositories_list, ftxui::App &screen, std::vector<int> &selectors);
+ftxui::Component repository_selector(vector<string> &repositories_names, ftxui::App &screen, int &selector);
+
+vector<Repository*> select_repositories(vector<vector<Repository*>> repositories_list, ftxui::App &screen, vector<int> &selectors);
 
 #endif
