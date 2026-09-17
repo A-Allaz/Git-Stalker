@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <file/file.h>
+#include <repository/repository.h>
 
 using namespace std;
 
