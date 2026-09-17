@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <parser/repository_parser.h>
+#include <parser/file_parser.h>
 #include <interface/debug.h>
 #include <interface/selectors/repository_selector.h>
 // #include <nlohmann/json.hpp>
@@ -21,11 +22,10 @@ int main(){
     }
 
     vector<Repository*> selected_repositories = select_repositories(repo_list, screen, selectors);
-    print_repositories(selected_repositories);
-
-    selected_repositories[0]->set_mapped_to(selected_repositories[1]);
-
-    cout << "repository " << selected_repositories[0]->get_repository_name() << " was mapped to repository " << selected_repositories[0]->get_mapped_to_repository()->get_repository_name() << endl;
+    
+    vector<File*> files = parse_files(selected_repositories[0]);
+    
+    print_files(files);
 
     return 0;
 };

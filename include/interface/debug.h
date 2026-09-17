@@ -7,12 +7,16 @@
 #define __DEBUG_H__
 
 #include <vector>
-#include <repository/repository.h>
+#include <file/file.h>
 
 using namespace std;
 
 void print_repository(Repository* repository);
 
 void print_repositories(vector<Repository*> repositories, string message="list of repositories: ");
+
+void print_file(File* file);
+
+void print_files(vector<File*> files);
 
 #endif

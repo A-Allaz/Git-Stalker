@@ -11,14 +11,17 @@ class File {
     private:
         string file_name;
         Repository* repository;
-        MappedType mapped_to;
+        MappedType* mapped_to;
 
     public:
-        File(string name, Repository* repository, MappedType mapped_to);
+        File(string name, Repository* repository, MappedType* mapped_to=nullptr);
         ~File();
 
         string get_name() const { return file_name; };
-        MappedType get_mapped() const { return mapped_to; };
+        Repository* get_repository() const { return repository; };
+        MappedType* get_mapped() const { return mapped_to; };
 };
+
+ostream& operator<<(ostream& os, File* file);
 
 #endif
