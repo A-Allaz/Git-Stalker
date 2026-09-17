@@ -29,6 +29,8 @@ OBJECT_NAMES := \
 	debug.o \
 	mapper.o \
 	repository_parser.o \
+	file_parser.o \
+	function_parser.o \
 	storage.o \
 	repository_selector.o
 

@@ -23,6 +23,6 @@ class Repository {
         void set_mapped_to(Repository* repository){ this->mapped_to = repository; };
 };
 
-ostream& operator<<(ostream& os, Repository repository);
+ostream& operator<<(ostream& os, Repository* repository);
 
 #endif

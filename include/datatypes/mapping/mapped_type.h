@@ -8,6 +8,6 @@ using namespace std;
 class File;
 class Function;
 
-using MappedType = variant<Function*, File*>;
+using MappedType = variant<Function, File>;
 
 #endif

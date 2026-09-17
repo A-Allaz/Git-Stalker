@@ -13,8 +13,8 @@ Repository::Repository(string name,  string location, Repository* mapped_to){
 
 Repository::~Repository(){};
 
-ostream& operator<<(ostream& os, Repository repository){
-    os << repository.get_repository_name() + " at " + repository.get_location();
+ostream& operator<<(ostream& os, Repository* repository){
+    os << repository->get_repository_name();
     return os;
 }
 

@@ -12,15 +12,15 @@ class Function {
         string function_name;
         unsigned int starting_line;
         unsigned int ending_line;
-        MappedType mapped_to;
+        MappedType* mapped_to;
 
     public:
-        Function(File* file, string name, MappedType mapped_to, unsigned int starting_line, unsigned int ending_line);
+        Function(File* file, string name, MappedType* mapped_to, unsigned int starting_line, unsigned int ending_line);
         ~Function();
 
         File* get_file() const { return file; };
         string get_function_name() const { return function_name; };
-        MappedType get_mapped() const { return mapped_to; };
+        MappedType* get_mapped() const { return mapped_to; };
 };
 
 #endif

@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// Frontend component for the repository selection menu
 ftxui::Component repository_selector(vector<string> &repositories_names, ftxui::App &screen, int &selector){
     ftxui::MenuOption option;
     option.on_enter = screen.ExitLoopClosure();
@@ -13,6 +14,7 @@ ftxui::Component repository_selector(vector<string> &repositories_names, ftxui::
     return menu;
 };
 
+// Selection of one repository per menu, handling of The assemblig of front-end components
 vector<Repository*> select_repositories(vector<vector<Repository*>> repositories_list, ftxui::App &screen, vector<int> &selectors){
 
     if(repositories_list.size() != selectors.size()){

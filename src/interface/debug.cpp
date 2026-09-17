@@ -12,7 +12,7 @@
 using namespace std;
 
 void print_repository(Repository* repository){
-    cout << repository->get_repository_name() << endl;
+    cout << repository << endl;
 }
 
 void print_repositories(vector<Repository*> repositories, string message){
@@ -23,6 +23,16 @@ void print_repositories(vector<Repository*> repositories, string message){
     }
 
     return;
+}
+
+void print_file(File* file){
+    cout << file << " from " << file->get_repository() << endl;
+}
+
+void print_files(vector<File*> files){
+    for(size_t i = 0; i < files.size(); i++){
+        print_file(files[i]);
+    }
 }
 
 #endif
