@@ -2,6 +2,7 @@
 #define __FILE_PARSER_CPP__
 
 #include <parser/file_parser.h>
+#include <repository/repository.h>
 
 using namespace std;
 namespace fs = filesystem;

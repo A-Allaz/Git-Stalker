@@ -4,6 +4,8 @@
 #include <string>
 #include <mapping/mapped_type.h>
 
+class File;
+
 using namespace std;
 
 class Function {

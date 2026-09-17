@@ -1,6 +1,7 @@
 #ifndef __REPOSITORY_CPP__
 #define __REPOSITORY_CPP__
 
+#include <function/function.h>
 #include <repository/repository.h>
 
 using namespace std;

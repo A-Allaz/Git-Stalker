@@ -2,14 +2,18 @@
 #define __REPOSITORY_H__
 
 #include <string>
+#include <vector>
 
 using namespace std;
+
+class File;
 
 class Repository {
     private:
         string repository_name;
         string location;
         Repository* mapped_to;
+        vector<File*> file_list;
 
     public:
         // Constructor-Destructor
@@ -21,6 +25,7 @@ class Repository {
         Repository* get_mapped_to_repository(){ return mapped_to; };
 
         void set_mapped_to(Repository* repository){ this->mapped_to = repository; };
+        void set_file_list(vector<File*> files){ this->file_list = files; };
 };
 
 ostream& operator<<(ostream& os, Repository* repository);
