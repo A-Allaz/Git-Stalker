@@ -1,7 +1,7 @@
 #ifndef __FUNCTION_PARSER_CPP__
 #define __FUNCTION_PARSER_CPP__
 
-#include <parser/function_parser.h>
+#include <parser/typescript_parser/function_parser.h>
 
 using namespace std;
 namespace fs = std::filesystem;

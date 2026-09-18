@@ -1,7 +1,7 @@
 #ifndef __FILE_PARSER_CPP__
 #define __FILE_PARSER_CPP__
 
-#include <parser/file_parser.h>
+#include <parser/typescript_parser/file_parser.h>
 #include <repository/repository.h>
 
 using namespace std;
