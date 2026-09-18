@@ -22,7 +22,12 @@ class Function {
 
         File* get_file() const { return file; };
         string get_function_name() const { return function_name; };
+        size_t get_starting_line() const { return this->starting_line; };
+        size_t get_ending_line() const { return this->ending_line; };
         MappedType* get_mapped() const { return mapped_to; };
+        string get_mapped_name() const;
+
+        void set_mapped(MappedType* target) { this->mapped_to = target; }
 };
 
 #endif
