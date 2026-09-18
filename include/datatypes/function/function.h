@@ -12,12 +12,12 @@ class Function {
     private:
         File* file;
         string function_name;
-        unsigned int starting_line;
-        unsigned int ending_line;
+        size_t starting_line;
+        size_t ending_line;
         MappedType* mapped_to;
 
     public:
-        Function(File* file, string name, MappedType* mapped_to, unsigned int starting_line, unsigned int ending_line);
+        Function(File* file, string name, size_t starting_line, size_t ending_line, MappedType* mapped_to=nullptr);
         ~Function();
 
         File* get_file() const { return file; };
