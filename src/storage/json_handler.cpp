@@ -17,14 +17,14 @@ json function_to_json(Function& function){
 
 json file_to_json(File& file){
     json json;
-    vector<Function*> functions = file.get_function_list();
+    // vector<Function*> functions = file.get_function_list();
 
     json["name"] = file.get_name();
     json["mapped_to"] = file.get_mapped_name();
 
-    for(size_t i = 0; i < file.get_function_list_length(); i++){
-        json["functions"] += function_to_json(*functions[i]);
-    }
+    // for(size_t i = 0; i < file.get_function_list_length(); i++){
+    //     json["functions"] += function_to_json(*functions[i]);
+    // }
 
     return json;
 }
@@ -62,8 +62,14 @@ File* json_to_file(Repository* repository, json json){
 Repository* json_to_repository(json json){
 
     //TODO: handle mapping
-    
+
     return new Repository(json["name"], json["location"]);
+}
+
+void save_repository(Repository* repository){
+    ofstream file("storage.json");
+
+    file << repository_to_json(*repository);
 }
 
 #endif

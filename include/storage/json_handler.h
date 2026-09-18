@@ -5,6 +5,7 @@
 #include <file/file.h>
 #include <function/function.h>
 #include <repository/repository.h>
+#include <fstream>
 
 using json = nlohmann::json;
 
@@ -19,5 +20,7 @@ Function* json_to_function(File& file, json json);
 File* json_to_file(Repository* repository, json json);
 
 Repository* json_to_repository(json json);
+
+void save_repository(Repository* repository);
 
 #endif
