@@ -30,7 +30,7 @@ OBJECT_NAMES := \
 	repository_parser.o \
 	file_parser.o \
 	function_parser.o \
-	storage.o \
+	json_handler.o \
 	repository_selector.o
 
 OBJ := $(addprefix $(BUILD_DIR)/,$(OBJECT_NAMES))
