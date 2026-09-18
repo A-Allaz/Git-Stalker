@@ -1,7 +1,7 @@
 #ifndef __REPOSITORY_PARSER_CPP__
 #define __REPOSITORY_PARSER_CPP__
 
-#include <parser/repository_parser.h>
+#include <parser/typescript_parser/repository_parser.h>
 
 using namespace std;
 namespace fs = filesystem;

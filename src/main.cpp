@@ -2,9 +2,9 @@
 #define __MAIN_CPP__
 
 #include <cstdio>
-#include <parser/repository_parser.h>
-#include <parser/file_parser.h>
-#include <parser/function_parser.h>
+#include <parser/typescript_parser/repository_parser.h>
+#include <parser/typescript_parser/file_parser.h>
+#include <parser/typescript_parser/function_parser.h>
 #include <interface/debug.h>
 #include <interface/selectors/repository_selector.h>
 // #include <nlohmann/json.hpp>
