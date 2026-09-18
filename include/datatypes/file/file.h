@@ -26,6 +26,7 @@ class File {
         MappedType* get_mapped() const { return mapped_to; };
 
         void set_function_list(vector<Function*> functions){ this->function_list = functions; };
+        void add_function(Function* function){ this->function_list.push_back(function); };
 };
 
 ostream& operator<<(ostream& os, File* file);

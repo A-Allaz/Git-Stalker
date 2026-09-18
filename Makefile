@@ -10,8 +10,6 @@ BUILD_DIR := .build
 VPATH := \
 	src \
 	src/datatypes/file \
-	src/datatypes/repository \
-	src/datatypes/function \
 	src/datatypes/function \
 	src/datatypes/repository \
 	src/interface \
