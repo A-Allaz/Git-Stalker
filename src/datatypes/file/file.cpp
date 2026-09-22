@@ -19,6 +19,10 @@ ostream& operator<<(ostream& os, File* file) {
 }
 
 string File::get_mapped_name() const {
+    if(this->get_mapped() == nullptr){
+        return "none";
+    }
+
     return visit([](const auto& obj) -> string {
         using T = decay_t<decltype(obj)>;
 

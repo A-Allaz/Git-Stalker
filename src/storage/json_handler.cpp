@@ -21,7 +21,7 @@ json file_to_json(File& file){
     // vector<Function*> functions = file.get_function_list();
 
     json["name"] = file.get_name();
-    json["mapped_to"] = "none" /*file.get_mapped_name()*/;
+    json["mapped_to"] = file.get_mapped_name();
 
     // for(size_t i = 0; i < file.get_function_list_length(); i++){
     //     json["functions"] += function_to_json(*functions[i]);

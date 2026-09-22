@@ -16,6 +16,10 @@ Function::Function(File* file, string name, size_t starting_line, size_t ending_
 };
 
 string Function::get_mapped_name() const {
+    if(this->get_mapped() == nullptr){
+        return "none";
+    }
+
     return visit([](const auto& obj) -> string {
         using T = decay_t<decltype(obj)>;
 
