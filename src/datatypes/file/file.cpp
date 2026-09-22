@@ -23,9 +23,9 @@ string File::get_mapped_name() const {
         using T = decay_t<decltype(obj)>;
 
         if constexpr (is_same_v<T, Function*>){
-            return "File-" + obj->get_function_name();
+            return "Function-" + obj->get_function_name();
         } else {
-            return "Function-" + obj->get_name();
+            return "File-" + obj->get_name();
         }
     }, *(this->mapped_to));
 }

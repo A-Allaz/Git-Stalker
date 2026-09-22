@@ -1,6 +1,6 @@
 CC		 := gcc
 CXX      := g++
-CPPFLAGS := -Iinclude -Iinclude/datatypes -Iinclude/interface -Tinclude/parser
+CPPFLAGS := -Iinclude -Iinclude/datatypes -Iinclude/interface -Iinclude/parser
 CFLAGS   := -Wall -Wextra -std=c11 -D_POSIX_C_SOURCE=200112L -D_DEFAULT_SOURCE
 CXXFLAGS := -Wall -Wextra -std=c++17 -MMD -MP
 
