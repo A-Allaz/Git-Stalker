@@ -28,6 +28,7 @@ class Repository {
 
         void set_mapped_to(Repository* repository){ this->mapped_to = repository; };
         void set_file_list(vector<File*> files){ this->file_list = files; };
+        void add_file(File* file) { this->file_list.push_back(file); };
 };
 
 ostream& operator<<(ostream& os, Repository* repository);
