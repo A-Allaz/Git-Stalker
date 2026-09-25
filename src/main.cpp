@@ -30,8 +30,6 @@ int main(){
     
     print_files(files);
 
-    save_repository(selected_repositories[0]);
-
     return 0;
 };
 

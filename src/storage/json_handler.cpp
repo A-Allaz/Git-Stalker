@@ -39,6 +39,13 @@ json repository_to_json(Repository& repository){
     json["location"] = repository.get_location();
     json["mapped_to"] = mapped_to != nullptr ? mapped_to->get_repository_name() : "NULL";
 
+    try{
+        repository.get_file_list();
+    } catch(const std::exception& e){
+        std::cerr << e.what() << '\n';
+    }
+    
+
     for(size_t i = 0; i < repository.get_file_list_size(); i++){
         json["files"] += file_to_json(*files[i]);
     }
@@ -65,12 +72,6 @@ Repository* json_to_repository(json json){
     //TODO: handle mapping
 
     return new Repository(json["name"], json["location"]);
-}
-
-void save_repository(Repository* repository){
-    ofstream file("storage.json");
-
-    file << repository_to_json(*repository);
 }
 
 #endif

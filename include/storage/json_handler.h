@@ -21,6 +21,4 @@ File* json_to_file(Repository* repository, json json);
 
 Repository* json_to_repository(json json);
 
-void save_repository(Repository* repository);
-
 #endif
