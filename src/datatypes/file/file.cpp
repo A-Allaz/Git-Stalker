@@ -6,7 +6,7 @@
 
 using namespace std;
 
-File::File(string name, Repository* repository, MappedType* mapped_to){
+File::File(string name, Repository* repository, MappedType mapped_to){
     this->file_name = name;
     this->repository = repository;
     this->mapped_to = mapped_to;
@@ -19,7 +19,7 @@ ostream& operator<<(ostream& os, File* file) {
 }
 
 string File::get_mapped_name() const {
-    if(this->get_mapped() == nullptr){
+    if(std::holds_alternative<std::monostate>(this->get_mapped())){
         return "none";
     }
 
@@ -27,11 +27,13 @@ string File::get_mapped_name() const {
         using T = decay_t<decltype(obj)>;
 
         if constexpr (is_same_v<T, Function*>){
-            return "Function-" + obj->get_function_name();
+            return "FUNCTION-" + obj->get_function_name();
+        } else if constexpr (is_same_v<T, File*>){
+            return "FILE-" + obj->get_name();
         } else {
-            return "File-" + obj->get_name();
+            return "NULL";
         }
-    }, *(this->mapped_to));
+    }, (this->mapped_to));
 }
 
 #endif

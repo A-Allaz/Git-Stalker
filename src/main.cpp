@@ -26,7 +26,9 @@ int main(){
     
     vector<File*> files = parse_files(selected_repositories[0]);
 
-    selected_repositories[0]->set_file_list(files);
+    for(auto& repository: selected_repositories){
+        repository->set_file_list(files);
+    }
     
     save_repositories(selected_repositories, "storage.json");
 

@@ -2,7 +2,6 @@
 #define __JSON_HANDLER_CPP_
 
 #include <storage/json_handler.h>
-#include <iostream>
 
 using namespace std;
 using json = nlohmann::json;
@@ -12,7 +11,7 @@ json function_to_json(Function& function){
         {"name", function.get_function_name()},
         {"starting_line", function.get_starting_line()},
         {"ending_line", function.get_ending_line()},
-        {"mapped_to", function.get_mapped() != nullptr ? function.get_mapped_name() : "NULL" }
+        {"mapped_to",!(holds_alternative<monostate>(function.get_mapped())) ? function.get_mapped_name() : "NULL" }
     };
 }
 
@@ -25,7 +24,7 @@ json file_to_json(File& file){
         functions = file.get_function_list();
 
         json["name"] = file.get_name();
-        json["mapped_to"] = file.get_mapped_name();
+        json["mapped_to"] = !(holds_alternative<monostate>(file.get_mapped())) ? file.get_mapped_name() : "NULL";
 
         for(size_t i = 0; i < file.get_function_list_length(); i++){
             json["functions"] += function_to_json(*functions[i]);

@@ -6,6 +6,8 @@
 #include <function/function.h>
 #include <repository/repository.h>
 #include <fstream>
+#include <iostream>
+#include <mapping/mapped_type.h>
 
 using json = nlohmann::json;
 
