@@ -3,7 +3,7 @@
 
 #include <storage/json_handler.h>
 
-vector<Repository*> retrieve_repositories(string file_name);
+vector<Repository*> retrieve_data(string file_name);
 
 void save_repositories(vector<Repository*>, string file_name);
 

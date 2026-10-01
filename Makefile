@@ -31,6 +31,7 @@ OBJECT_NAMES := \
 	file_parser.o \
 	function_parser.o \
 	json_handler.o \
+	storage_handler.o \
 	repository_selector.o
 
 OBJ := $(addprefix $(BUILD_DIR)/,$(OBJECT_NAMES))

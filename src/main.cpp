@@ -7,7 +7,7 @@
 #include <parser/typescript_parser/function_parser.h>
 #include <interface/debug.h>
 #include <interface/selectors/repository_selector.h>
-#include <storage/json_handler.h>
+#include <storage/storage_handler.h>
 
 using namespace std;
 
@@ -28,7 +28,7 @@ int main(){
 
     selected_repositories[0]->set_file_list(files);
     
-    print_files(files);
+    save_repositories(selected_repositories, "storage.json");
 
     return 0;
 };

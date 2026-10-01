@@ -18,14 +18,23 @@ json function_to_json(Function& function){
 
 json file_to_json(File& file){
     json json;
-    // vector<Function*> functions = file.get_function_list();
+    vector<Function*> functions;
 
-    json["name"] = file.get_name();
-    json["mapped_to"] = file.get_mapped_name();
+    try
+    {
+        functions = file.get_function_list();
 
-    // for(size_t i = 0; i < file.get_function_list_length(); i++){
-    //     json["functions"] += function_to_json(*functions[i]);
-    // }
+        json["name"] = file.get_name();
+        json["mapped_to"] = file.get_mapped_name();
+
+        for(size_t i = 0; i < file.get_function_list_length(); i++){
+            json["functions"] += function_to_json(*functions[i]);
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Couldn't retrieve function list for file " << file.get_name() << " : " << e.what() << '\n';
+    }
 
     return json;
 }
@@ -42,10 +51,9 @@ json repository_to_json(Repository& repository){
     try{
         repository.get_file_list();
     } catch(const std::exception& e){
-        std::cerr << e.what() << '\n';
+        std::cerr << "Couldn't retrieve function list for file " << repository.get_repository_name() << " : " << e.what() << '\n';
     }
     
-
     for(size_t i = 0; i < repository.get_file_list_size(); i++){
         json["files"] += file_to_json(*files[i]);
     }
@@ -53,25 +61,34 @@ json repository_to_json(Repository& repository){
     return json;
 }
 
-Function* json_to_function(File& file, json json){
-    
-    //TODO: handle the mapped_to value -> create new function/file or reference an existing one
-
-    return new Function(&file, json["name"], json["starting_line"], json["ending_line"]);
+Function* json_to_function(json json, File* file){
+    return new Function(file, json["name"], json["starting_line"], json["ending_line"]);
 }
 
-File* json_to_file(Repository* repository, json json){
+File* json_to_file(json json, Repository* repository, vector<Function*>& visited_functions){
+    File* file = new File(json["name"], repository);
 
-    //TODO: handle the mapped_to value -> create new function/file or reference an existing one
+    for(const auto& json_function: json["functions"]){
+        Function* function = json_to_function(json_function, file);
 
-    return new File(json["name"], repository);
+        file->get_function_list().push_back(function);
+        visited_functions.push_back(function);
+    }
+
+    return file;
 }
 
-Repository* json_to_repository(json json){
+Repository* json_to_repository(json json, vector<File*>& visited_files, vector<Function*>& visited_functions){
+    Repository* repository = new Repository(json["name"], json["location"]);
 
-    //TODO: handle mapping
+    for(const auto& json_file: json["files"]){
+        File* file = json_to_file(json_file, repository, visited_functions);
 
-    return new Repository(json["name"], json["location"]);
+        repository->get_file_list().push_back(file);
+        visited_files.push_back(file);
+    }
+
+    return repository;
 }
 
 #endif

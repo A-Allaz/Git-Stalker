@@ -15,10 +15,10 @@ json file_to_json(File& file);
 
 json repository_to_json(Repository& repository);
 
-Function* json_to_function(File& file, json json);
+Function* json_to_function(json json, File* file);
 
-File* json_to_file(Repository* repository, json json);
+File* json_to_file(json json, Repository* repository, vector<Function*>& visited_functions);
 
-Repository* json_to_repository(json json);
+Repository* json_to_repository(json json, vector<File*>& visited_files, vector<Function*>& visited_functions);
 
 #endif
