@@ -7,7 +7,7 @@
 #include <parser/typescript_parser/function_parser.h>
 #include <interface/debug.h>
 #include <interface/selectors/repository_selector.h>
-// #include <nlohmann/json.hpp>
+#include <storage/storage_handler.h>
 
 using namespace std;
 
@@ -25,8 +25,12 @@ int main(){
     vector<Repository*> selected_repositories = select_repositories(repo_list, screen, selectors);
     
     vector<File*> files = parse_files(selected_repositories[0]);
+
+    for(auto& repository: selected_repositories){
+        repository->set_file_list(files);
+    }
     
-    print_files(files);
+    save_repositories(selected_repositories, "storage.json");
 
     return 0;
 };

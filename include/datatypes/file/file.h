@@ -14,18 +14,22 @@ class File {
     private:
         string file_name;
         Repository* repository;
-        MappedType* mapped_to;
+        MappedType mapped_to;
         vector<Function*> function_list;
 
     public:
-        File(string name, Repository* repository, MappedType* mapped_to=nullptr);
+        File(string name, Repository* repository, MappedType mapped_to=monostate{});
         ~File();
 
         string get_name() const { return file_name; };
         Repository* get_repository() const { return repository; };
-        MappedType* get_mapped() const { return mapped_to; };
+        MappedType get_mapped() const { return mapped_to; };
+        string get_mapped_name() const;
+        vector<Function*> get_function_list() const { return this->function_list; }; 
+        size_t get_function_list_length() const { return function_list.size(); };
 
         void set_function_list(vector<Function*> functions){ this->function_list = functions; };
+        void set_mapped_to(MappedType mapping_target){ this->mapped_to = mapping_target; };
         void add_function(Function* function){ this->function_list.push_back(function); };
 };
 

@@ -1,6 +1,12 @@
 CC		 := gcc
 CXX      := g++
-CPPFLAGS := -Iinclude -Iinclude/datatypes -Iinclude/interface -Tinclude/parser
+CPPFLAGS := -Iinclude \
+	-Iinclude/datatypes \
+	-Iinclude/interface \
+	-Iinclude/parser \
+	-Iinclude/mapper \
+	-Iinclude/utils \
+	-Iinclude/storage
 CFLAGS   := -Wall -Wextra -std=c11 -D_POSIX_C_SOURCE=200112L -D_DEFAULT_SOURCE
 CXXFLAGS := -Wall -Wextra -std=c++17 -MMD -MP
 
@@ -17,7 +23,8 @@ VPATH := \
 	src/mapper \
 	src/parser \
 	src/parser/typescript_parser \
-	src/storage 
+	src/storage \
+	src/utils
 
 OBJECT_NAMES := \
 	main.o \
@@ -30,8 +37,10 @@ OBJECT_NAMES := \
 	repository_parser.o \
 	file_parser.o \
 	function_parser.o \
-	storage.o \
-	repository_selector.o
+	json_handler.o \
+	storage_handler.o \
+	repository_selector.o \
+	finder.o
 
 OBJ := $(addprefix $(BUILD_DIR)/,$(OBJECT_NAMES))
 DEP := $(OBJ:.o=.d)

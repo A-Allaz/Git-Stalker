@@ -14,7 +14,13 @@ vector<File*> parse_files(Repository* repository){
 
     for(auto iter = fs::recursive_directory_iterator(root); iter != fs::recursive_directory_iterator();){
         const string file_path = iter->path().string();
-        if(file_path.find(".ts") != string::npos && file_path.find("node_modules") == string::npos && file_path.find(".d.ts") == string::npos){
+        if(
+            file_path.find(".ts") != string::npos && 
+            file_path.find("node_modules") == string::npos && 
+            file_path.find(".d.ts") == string::npos && 
+            file_path.find(".test.ts") == string::npos &&
+            file_path.find(".tsx") == string::npos
+        ){
             const string file_name = iter->path().string();
             files.push_back(new File(file_name, repository));
         }
