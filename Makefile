@@ -47,7 +47,7 @@ DEP := $(OBJ:.o=.d)
 
 .PHONY: all build clean
 
-all: build
+all: git-submodules build
 
 build: $(TARGET)
 
@@ -62,7 +62,7 @@ $(BUILD_DIR):
 
 -include $(DEP)
 
-build:
+git-submodules:
 	git submodule update --init --recursive
 
 clean:

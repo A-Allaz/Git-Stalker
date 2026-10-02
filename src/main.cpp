@@ -7,6 +7,7 @@
 #include <parser/typescript_parser/function_parser.h>
 #include <interface/debug.h>
 #include <interface/selectors/repository_selector.h>
+#include <interface/selectors/mapping_selector.h>
 #include <storage/storage_handler.h>
 
 using namespace std;
