@@ -30,6 +30,8 @@ int main(){
     for(auto& repository: selected_repositories){
         repository->set_file_list(files);
     }
+
+    map_file_and_functions(selected_repositories[0], selected_repositories[1], screen);
     
     save_repositories(selected_repositories, "storage.json");
 

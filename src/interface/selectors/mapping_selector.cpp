@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<string>* function_selector(vector<Function*> functions){
+vector<string> function_selector(vector<Function*> functions){
     vector<string> function_names = {"FILE"};
     ftxui::Component radioboxes ;
 
@@ -13,10 +13,10 @@ vector<string>* function_selector(vector<Function*> functions){
         function_names.push_back(function->get_function_name());
     }
 
-    return &function_names;
+    return function_names;
 }
 
-vector<ftxui::Component> file_selector(vector<File*> files, ftxui::App &screen, int &selected_file, int &selected_function){
+vector<ftxui::Component> file_selector(vector<File*> files, int &selected_function){
     vector<string> file_names = {};
     vector<ftxui::Component> radioboxes = {};
 
@@ -50,7 +50,7 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
     }
 
     // Build origin (left) UI component for file and function selection
-    vector<ftxui::Component> origin_radioboxes = file_selector(origin->get_file_list(), screen, selected_origin_file, selected_origin_function);
+    vector<ftxui::Component> origin_radioboxes = file_selector(origin->get_file_list(), selected_origin_function);
 
     auto origin_tab_menu = ftxui::Menu(&origin_file_names, &selected_origin_file);
     auto origin_tab_container = ftxui::Container::Tab(origin_radioboxes, &selected_origin_file);
@@ -61,7 +61,7 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
     });
 
     // Build target (right) UI component for file and function selection
-    vector<ftxui::Component> target_radioboxes = file_selector(origin->get_file_list(), screen, selected_target_file, selected_target_function);
+    vector<ftxui::Component> target_radioboxes = file_selector(origin->get_file_list(), selected_target_function);
 
     auto target_tab_menu = ftxui::Menu(&target_file_names, &selected_target_file);
     auto target_tab_container = ftxui::Container::Tab(target_radioboxes, &selected_target_file);

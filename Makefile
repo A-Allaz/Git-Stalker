@@ -40,6 +40,7 @@ OBJECT_NAMES := \
 	json_handler.o \
 	storage_handler.o \
 	repository_selector.o \
+	mapping_selector.o \
 	finder.o
 
 OBJ := $(addprefix $(BUILD_DIR)/,$(OBJECT_NAMES))

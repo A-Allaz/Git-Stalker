@@ -16,9 +16,9 @@
 
 using namespace std;
 
-vector<string>* function_selector(vector<Function*> functions);
+vector<string> function_selector(vector<Function*> functions);
 
-vector<ftxui::Component> file_selector(vector<File*> files, ftxui::App &screen, int &selected_file, int &selected_function);
+vector<ftxui::Component> file_selector(vector<File*> files, int &selected_function);
 
 void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &screen);
 
