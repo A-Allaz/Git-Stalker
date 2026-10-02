@@ -62,6 +62,9 @@ $(BUILD_DIR):
 
 -include $(DEP)
 
+build:
+	git submodule update --init --recursive
+
 clean:
 	rm -rf $(BUILD_DIR) $(TARGET)
 
