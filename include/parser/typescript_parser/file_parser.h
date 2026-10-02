@@ -6,6 +6,8 @@
 #include <filesystem>
 #include <file/file.h>
 
+#include <parser/typescript_parser/function_parser.h>
+
 using namespace std;
 
 vector<File*> parse_files(Repository* repository);

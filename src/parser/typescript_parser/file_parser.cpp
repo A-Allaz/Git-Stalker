@@ -22,7 +22,12 @@ vector<File*> parse_files(Repository* repository){
             file_path.find(".tsx") == string::npos
         ){
             const string file_name = iter->path().string();
-            files.push_back(new File(file_name, repository));
+
+            File* file = new File(file_name, repository);
+            files.push_back(file);
+
+            // Parse the file functions
+            visit_file(*file, file_path);
         }
 
         iter++;
