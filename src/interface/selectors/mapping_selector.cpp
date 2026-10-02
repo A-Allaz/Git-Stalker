@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<string>* function_selector(vector<Function*> functions){
+vector<string> function_selector(vector<Function*> functions){
     vector<string> function_names = {"FILE"};
     ftxui::Component radioboxes ;
 
@@ -13,10 +13,10 @@ vector<string>* function_selector(vector<Function*> functions){
         function_names.push_back(function->get_function_name());
     }
 
-    return &function_names;
+    return function_names;
 }
 
-vector<ftxui::Component> file_selector(vector<File*> files, ftxui::App &screen, int &selected_file, int &selected_function){
+vector<ftxui::Component> file_selector(vector<File*> files, int &selected_function){
     vector<string> file_names = {};
     vector<ftxui::Component> radioboxes = {};
 
@@ -40,41 +40,28 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
     vector<File*> origin_file_list = origin->get_file_list();
     vector<File*> target_file_list = target->get_file_list();
 
-    // Build name lists of the files
+    // Build origin (left) UI component for file and function selection
     for(const auto& file: origin_file_list){
         origin_file_names.push_back(file->get_name());
     }
 
-    for(const auto& file: target_file_list){
-        target_file_names.push_back(file->get_name());
-    }
-
-    // Build origin (left) UI component for file and function selection
-    vector<ftxui::Component> origin_radioboxes = file_selector(origin->get_file_list(), screen, selected_origin_file, selected_origin_function);
+    vector<ftxui::Component> origin_radioboxes = file_selector(origin->get_file_list(), selected_origin_function);
 
     auto origin_tab_menu = ftxui::Menu(&origin_file_names, &selected_origin_file);
     auto origin_tab_container = ftxui::Container::Tab(origin_radioboxes, &selected_origin_file);
 
-    auto origin_container = ftxui::Container::Horizontal({
-        origin_tab_menu,
-        origin_tab_container
-    });
-
     // Build target (right) UI component for file and function selection
-    vector<ftxui::Component> target_radioboxes = file_selector(origin->get_file_list(), screen, selected_target_file, selected_target_function);
+    for(const auto& file: target_file_list){
+        target_file_names.push_back(file->get_name());
+    }
+
+    vector<ftxui::Component> target_radioboxes = file_selector(target->get_file_list(), selected_target_function);
 
     auto target_tab_menu = ftxui::Menu(&target_file_names, &selected_target_file);
     auto target_tab_container = ftxui::Container::Tab(target_radioboxes, &selected_target_file);
 
-    auto target_container = ftxui::Container::Horizontal({
-        target_tab_menu,
-        target_tab_container
-    });
-
     // Exit button
-    auto exit_button = ftxui::Button("Exit", [&] {
-        screen.ExitLoopClosure();
-    });
+    auto exit_button = ftxui::Button("Exit", screen.ExitLoopClosure());
 
     // Build global container
     auto container = ftxui::Container::Vertical({
@@ -87,7 +74,7 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
         exit_button
     });
 
-    auto renderer = ftxui::Renderer(origin_container, [&] {
+    auto renderer = ftxui::Renderer(container, [&] {
         return ftxui::vbox({
             ftxui::hbox({
                 origin_tab_menu->Render(),
@@ -120,15 +107,24 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
                 
                 // Case File -> ?
                 if(selected_origin_function == 0){
+                    File* target_file = find_file_by_name(target->get_file_list(), target_file_names[selected_target_file]);
 
                     // Case File -> File
                     if(selected_target_function == 0){
-                        File* target_file = find_file_by_name(target->get_file_list(), target_file_names[selected_target_file]);
                         map_file_to_file(origin_file, target_file);
 
                     // Case File -> Function
                     } else {
+                        vector<Function*> target_functions = target_file->get_function_list();
+                        vector<string> target_function_names = {};
 
+                        for(const auto& function: target_functions){
+                            target_function_names.push_back(function->get_function_name());
+                        }
+
+                        Function* target_function = find_function_by_name(target_functions, target_function_names[selected_target_function]);
+                        
+                        map_file_to_function(origin_file, target_function);
                     }
                 // Case Function -> ?
                 } else {
@@ -154,6 +150,11 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
                     }
                 }
 
+                selected_origin_file = 0;
+                selected_origin_function = 0;
+                selected_target_file = 0;
+                selected_target_function = 0;
+
                 return true;
             }
 
@@ -161,7 +162,7 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
         }
     );
 
-    screen.Loop(renderer);
+    screen.Loop(enter_handler);
 }
 
 #endif
