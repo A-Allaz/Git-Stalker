@@ -39,11 +39,11 @@ vector<Repository*> retrieve_data(string file_name){
                 break;
             } 
             else if(file_mapped_to_name.find("FILE-") != string::npos){
-                File* target = find_file_by_name(visited_files, file_mapped_to_name);
+                File* target = find_file_by_name(visited_files, file_mapped_to_name.erase(0,5));
                 map_file_to_file(origin, target);
             } 
-            else if(file_mapped_to_name.find("FUNCTION-") != string::npos){
-                Function* target = find_function_by_name(visited_functions, file_mapped_to_name);
+            else if(file_mapped_to_name.find("FUNC-") != string::npos){
+                Function* target = find_function_by_name(visited_functions, file_mapped_to_name.erase(0,5));
                 map_file_to_function(origin, target);
             }
 
@@ -55,11 +55,11 @@ vector<Repository*> retrieve_data(string file_name){
                     break;
                 } 
                 else if(function_mapped_to_name.find("FILE-") != string::npos){
-                    File* target = find_file_by_name(visited_files, function_mapped_to_name);
+                    File* target = find_file_by_name(visited_files, function_mapped_to_name.erase(0,5));
                     map_function_to_file(origin, target);
                 } 
-                else if(function_mapped_to_name.find("FUNCTION-") != string::npos){
-                    Function* target = find_function_by_name(visited_functions, function_mapped_to_name);
+                else if(function_mapped_to_name.find("FUNC-") != string::npos){
+                    Function* target = find_function_by_name(visited_functions, function_mapped_to_name.erase(0,5));
                     map_function_to_function(origin, target);
                 }
             }
