@@ -48,7 +48,18 @@ DEP := $(OBJ:.o=.d)
 
 .PHONY: all build clean
 
-all: git-submodules build
+all: git-submodules build install
+
+install:
+	mkdir -p $$HOME/.local/bin
+	cp git-stalker $$HOME/.local/bin/git-stalker
+	chmod +x $$HOME/.local/bin/git-stalker
+	@case ":$$PATH:" in \
+		*":$$HOME/.local/bin:"*) ;; \
+		*) echo "Warning: $$HOME/.local/bin is not in PATH"; \
+		   echo 'Add this to your shell config:'; \
+		   echo '  export PATH="$$HOME/.local/bin:$$PATH"';; \
+	esac
 
 build: $(TARGET)
 
