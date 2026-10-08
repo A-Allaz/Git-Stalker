@@ -10,7 +10,7 @@ vector<string> function_selector(vector<Function*> functions){
     ftxui::Component radioboxes ;
 
     for(const auto& function: functions){
-        function_names.push_back(function->get_function_name());
+        function_names.push_back(function->get_name());
     }
 
     return function_names;
@@ -102,7 +102,7 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
                 vector<string> origin_function_names = {};
 
                 for(const auto& function: origin_functions){
-                    origin_function_names.push_back(function->get_function_name());
+                    origin_function_names.push_back(function->get_name());
                 }
                 
                 // Case File -> ?
@@ -119,7 +119,7 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
                         vector<string> target_function_names = {};
 
                         for(const auto& function: target_functions){
-                            target_function_names.push_back(function->get_function_name());
+                            target_function_names.push_back(function->get_name());
                         }
 
                         Function* target_function = find_function_by_name(target_functions, target_function_names[selected_target_function]);
@@ -141,7 +141,7 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
                         vector<string> target_function_names = {};
 
                         for(const auto& function: target_functions){
-                            target_function_names.push_back(function->get_function_name());
+                            target_function_names.push_back(function->get_name());
                         }
 
                         Function* target_function = find_function_by_name(target_functions, target_function_names[selected_target_function - 1]);

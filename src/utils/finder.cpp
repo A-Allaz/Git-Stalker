@@ -27,7 +27,7 @@ File* find_file_by_name(vector<File*> files, string name){
 
 Function* find_function_by_name(vector<Function*> functions, string name){
     for(auto& function: functions){
-        if(function->get_function_name() == name){
+        if(function->get_name() == name){
             return function;
         }
     }

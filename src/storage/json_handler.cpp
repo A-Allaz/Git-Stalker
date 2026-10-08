@@ -6,25 +6,33 @@
 using namespace std;
 using json = nlohmann::json;
 
+//-------------------------------------------------------------------------------------------------
+// Objects -> Storage
+//-------------------------------------------------------------------------------------------------
+
 json function_to_json(Function& function){
+    vector<MappedType> mapped_list = function.get_mapped_list();
+
     return {
-        {"name", function.get_function_name()},
+        {"name", function.get_name()},
         {"starting_line", function.get_starting_line()},
         {"ending_line", function.get_ending_line()},
-        {"mapped_to",!(holds_alternative<monostate>(function.get_mapped())) ? function.get_mapped_name() : "NULL" }
+        {"mapped_to",!(mapped_list.size()) ? mapped_to_json(mapped_list) : "NULL" }
     };
 }
 
 json file_to_json(File& file){
     json json;
     vector<Function*> functions;
+    vector<MappedType> mapped_list;
 
     try
     {
         functions = file.get_function_list();
+        mapped_list = file.get_mapped_list();
 
         json["name"] = file.get_name();
-        json["mapped_to"] = !(holds_alternative<monostate>(file.get_mapped())) ? file.get_mapped_name() : "NULL";
+        json["mapped_to"] = !(mapped_list.size()) ? mapped_to_json(mapped_list) : "NULL";
 
         for(size_t i = 0; i < file.get_function_list_length(); i++){
             json["functions"] += function_to_json(*functions[i]);
@@ -59,6 +67,25 @@ json repository_to_json(Repository& repository){
 
     return json;
 }
+
+json mapped_to_json(vector<MappedType> mapped_to_list){
+    json json;
+
+    for(const auto& mapped_to: mapped_to_list){
+        if(auto* function = get_if<Function*>(&mapped_to)){
+            json += {"name", "FUNC-" + (*function)->get_name()};
+        } else if(auto* file = get_if<File*>(&mapped_to)){
+            json += {"name", "FILE-" + (*file)->get_name()};
+        }
+    }
+
+    return json;
+}
+
+
+//-------------------------------------------------------------------------------------------------
+// Storage -> Objects
+//-------------------------------------------------------------------------------------------------
 
 Function* json_to_function(json json, File* file){
     return new Function(file, json["name"], json["starting_line"], json["ending_line"]);
