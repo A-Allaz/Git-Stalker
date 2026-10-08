@@ -47,8 +47,8 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
 
     vector<ftxui::Component> origin_radioboxes = file_selector(origin->get_file_list(), selected_origin_function);
 
-    auto origin_tab_menu = ftxui::Menu(&origin_file_names, &selected_origin_file);
-    auto origin_tab_container = ftxui::Container::Tab(origin_radioboxes, &selected_origin_file);
+    auto origin_tab_menu = ftxui::Menu(&origin_file_names, &selected_origin_file) | ftxui::size(ftxui::WIDTH, ftxui::LESS_THAN, 80);
+    auto origin_tab_container = ftxui::Container::Tab(origin_radioboxes, &selected_origin_file) | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 40);
 
     // Build target (right) UI component for file and function selection
     for(const auto& file: target_file_list){
