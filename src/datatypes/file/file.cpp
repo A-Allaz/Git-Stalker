@@ -9,7 +9,6 @@ using namespace std;
 File::File(string name, Repository* repository){
     this->file_name = name;
     this->repository = repository;
-    this->mapped_to_list = {};
 };
 
 ostream& operator<<(ostream& os, File* file) {

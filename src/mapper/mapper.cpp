@@ -2,6 +2,7 @@
 #define __MAPPER_CPP__
 
 #include <mapper/mapper.h>
+#include <iostream>
 
 using namespace std;
 

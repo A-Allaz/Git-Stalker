@@ -17,7 +17,7 @@ json function_to_json(Function& function){
         {"name", function.get_name()},
         {"starting_line", function.get_starting_line()},
         {"ending_line", function.get_ending_line()},
-        {"mapped_to",!(mapped_list.size()) ? mapped_to_json(mapped_list) : "NULL" }
+        {"mapped_to", mapped_list.size() ? mapped_to_json(mapped_list) : "NULL" }
     };
 }
 
@@ -32,15 +32,15 @@ json file_to_json(File& file){
         mapped_list = file.get_mapped_list();
 
         json["name"] = file.get_name();
-        json["mapped_to"] = !(mapped_list.size()) ? mapped_to_json(mapped_list) : "NULL";
+        json["mapped_to"] = mapped_list.size() ? mapped_to_json(mapped_list) : "NULL";
 
         for(size_t i = 0; i < file.get_function_list_length(); i++){
             json["functions"] += function_to_json(*functions[i]);
         }
     }
-    catch(const std::exception& e)
+    catch(const exception& e)
     {
-        std::cerr << "Couldn't retrieve function list for file " << file.get_name() << " : " << e.what() << '\n';
+        cerr << "Couldn't retrieve function list for file " << file.get_name() << " : " << e.what() << endl;;
     }
 
     return json;
@@ -57,8 +57,8 @@ json repository_to_json(Repository& repository){
 
     try{
         repository.get_file_list();
-    } catch(const std::exception& e){
-        std::cerr << "Couldn't retrieve function list for file " << repository.get_repository_name() << " : " << e.what() << '\n';
+    } catch(const exception& e){
+        cerr << "Couldn't retrieve function list for file " << repository.get_repository_name() << " : " << e.what() << endl;;
     }
     
     for(size_t i = 0; i < repository.get_file_list_size(); i++){
@@ -73,9 +73,9 @@ json mapped_to_json(vector<MappedType> mapped_to_list){
 
     for(const auto& mapped_to: mapped_to_list){
         if(auto* function = get_if<Function*>(&mapped_to)){
-            json += {"name", "FUNC-" + (*function)->get_name()};
+            json += {{"name", "FUNC-" + (*function)->get_name()}};
         } else if(auto* file = get_if<File*>(&mapped_to)){
-            json += {"name", "FILE-" + (*file)->get_name()};
+            json += {{"name", "FILE-" + (*file)->get_name()}};
         }
     }
 
