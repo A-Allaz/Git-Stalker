@@ -2,6 +2,7 @@
 #define __FUNCTION_H__
 
 #include <string>
+#include <vector>
 #include <mapping/mapped_type.h>
 
 class File;
@@ -14,20 +15,20 @@ class Function {
         string function_name;
         size_t starting_line;
         size_t ending_line;
-        MappedType mapped_to;
+        vector<MappedType> mapped_to_list;
 
     public:
-        Function(File* file, string name, size_t starting_line, size_t ending_line, MappedType mapped_to=monostate{});
+        Function(File* file, string name, size_t starting_line, size_t ending_line);
         ~Function();
 
         File* get_file() const { return file; };
-        string get_function_name() const { return function_name; };
+        string get_name() const { return function_name; };
         size_t get_starting_line() const { return this->starting_line; };
         size_t get_ending_line() const { return this->ending_line; };
-        MappedType get_mapped() const { return mapped_to; };
-        string get_mapped_name() const;
+        vector<MappedType> get_mapped_list() const { return mapped_to_list; };
 
-        void set_mapped(MappedType target) { this->mapped_to = target; }
+        void set_mapped_list(vector<MappedType> target_list) { this->mapped_to_list = target_list; }
+        void add_mapped_to(MappedType target){ this->mapped_to_list.push_back(target); };
 };
 
 #endif
