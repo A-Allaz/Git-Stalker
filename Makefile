@@ -8,7 +8,10 @@ CPPFLAGS := -Iinclude \
 	-Iinclude/utils \
 	-Iinclude/storage
 CFLAGS   := -Wall -Wextra -std=c11 -D_POSIX_C_SOURCE=200112L -D_DEFAULT_SOURCE
-CXXFLAGS := -Wall -Wextra -std=c++17 -MMD -MP $(pkg-config --libs libgit2)
+CXXFLAGS := -Wall -Wextra -std=c++17 -MMD -MP
+
+CPPFLAGS += $(shell pkg-config --cflags libgit2)
+LDLIBS   += $(shell pkg-config --libs libgit2)
 
 TARGET    := git-stalker
 BUILD_DIR := .build
@@ -64,7 +67,7 @@ install:
 build: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CXX) $(OBJ) -o $@
+	$(CXX) $(OBJ) -o $@ $(LDLIBS)
 
 $(BUILD_DIR)/%.o: %.cpp | $(BUILD_DIR)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
