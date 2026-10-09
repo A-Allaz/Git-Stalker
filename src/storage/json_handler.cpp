@@ -54,6 +54,7 @@ json repository_to_json(Repository& repository){
     json["name"] = repository.get_repository_name();
     json["location"] = repository.get_location();
     json["mapped_to"] = mapped_to != nullptr ? mapped_to->get_repository_name() : "NULL";
+    json["last_commit"] = git_oid_tostr_s(git_commit_id(repository.get_last_commit()));
 
     try{
         repository.get_file_list();
@@ -106,6 +107,14 @@ File* json_to_file(json json, Repository* repository, vector<Function*>& visited
 
 Repository* json_to_repository(json json, vector<File*>& visited_files, vector<Function*>& visited_functions){
     Repository* repository = new Repository(json["name"], json["location"]);
+
+    git_oid oid;
+    git_repository* repo = nullptr;
+    git_commit* commit = nullptr;
+    git_oid_fromstr(&oid, json["last_commit"].get<string>().c_str());
+    git_repository_open(&repo, repository->get_location().c_str());
+    git_commit_lookup(&commit, repo, &oid);
+    repository->set_last_commit(commit);
 
     for(const auto& json_file: json["files"]){
         File* file = json_to_file(json_file, repository, visited_functions);

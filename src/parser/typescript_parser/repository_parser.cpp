@@ -21,8 +21,9 @@ vector<Repository*> parse_repositories(){
             const string repo_name = repo_path.substr(repo_path.find(user) + user.length() + 1);
             Repository* tmp = new Repository(repo_name, root_dir.string() + "/" + repo_name, nullptr);
 
-            if(!is_in_vector(repositories, tmp) && !(repo_name[0] == '.')) // Not saved yet and not a hidden folder
+            if(!is_in_vector(repositories, tmp) && !(repo_name[0] == '.') && (repo_name.find("/.") == string::npos)) // Not saved yet and not a hidden folder
             {
+                tmp->update_last_commit();
                 repositories.push_back(tmp);
             } else {
                 delete tmp;
