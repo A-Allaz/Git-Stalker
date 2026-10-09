@@ -6,7 +6,8 @@ CPPFLAGS := -Iinclude \
 	-Iinclude/parser \
 	-Iinclude/mapper \
 	-Iinclude/utils \
-	-Iinclude/storage
+	-Iinclude/storage 
+
 CFLAGS   := -Wall -Wextra -std=c11 -D_POSIX_C_SOURCE=200112L -D_DEFAULT_SOURCE
 CXXFLAGS := -Wall -Wextra -std=c++17 -MMD -MP
 
