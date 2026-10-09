@@ -27,21 +27,7 @@ void Repository::update_last_commit(){
     git_repository* repository = nullptr;
     git_reference* head = nullptr;
 
-    int result = git_repository_open(
-    &repository,
-    this->get_location().c_str()
-    );
-
-    if (result < 0) {
-        const git_error* error = git_error_last();
-
-        std::cerr << "Repository path: " << this->get_location() << '\n';
-        std::cerr << "libgit2 error code: " << result << '\n';
-
-        if (error != nullptr) {
-            std::cerr << "libgit2 error: " << error->message << '\n';
-        }
-
+    if (git_repository_open(&repository, this->get_location().c_str())){
         __throw_runtime_error("Failed to open repository");
     }
     if(git_repository_head(&head, repository)){
