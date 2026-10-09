@@ -14,7 +14,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install submodules
+    - name: install dependencies
+      run: sudo apt install libgit2-dev    
+
+    - name: install submodules
       run: make git-submodules
 
     - name: build
