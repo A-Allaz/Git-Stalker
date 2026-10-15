@@ -67,4 +67,8 @@ compile_commands.json
 #logs
 .logs
 
+# storage files
 *storage.json
+
+# opencode config
+*opencode.json
