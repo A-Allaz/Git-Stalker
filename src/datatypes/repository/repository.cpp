@@ -12,14 +12,18 @@ Repository::Repository(string name,  string location, Repository* mapped_to){
     this->repository_name = name;
     this->location = location;
     this->mapped_to = mapped_to;
+    this->last_commit = nullptr;
 };
 
 Repository::~Repository(){
-    for(auto file: this->file_list){
-        free(file);
+    if(this->get_file_list_size()){
+        for(auto file: this->file_list){
+            delete file;
+        }
     }
-
-    free(this->last_commit);
+    if(this->last_commit != nullptr){
+        git_commit_free(this->last_commit);
+    }
 };
 
 ostream& operator<<(ostream& os, Repository* repository){
