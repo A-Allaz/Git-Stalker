@@ -17,12 +17,12 @@ json function_to_json(Function& function){
         {"name", function.get_name()},
         {"starting_line", function.get_starting_line()},
         {"ending_line", function.get_ending_line()},
-        {"mapped_to", mapped_list.size() ? mapped_to_json(mapped_list) : "NULL" }
+        {"mapped_to", mapped_list.size() ? mapped_to_json(mapped_list) : json::array({json{{"name", "NULL"}}}) }
     };
 }
 
 json file_to_json(File& file){
-    json json;
+    json js;
     vector<Function*> functions;
     vector<MappedType> mapped_list;
 
@@ -31,11 +31,11 @@ json file_to_json(File& file){
         functions = file.get_function_list();
         mapped_list = file.get_mapped_list();
 
-        json["name"] = file.get_name();
-        json["mapped_to"] = mapped_list.size() ? mapped_to_json(mapped_list) : "NULL";
+        js["name"] = file.get_name();
+        js["mapped_to"] = js["mapped_to"] = mapped_list.empty() ? json::array({json{{"name", "NULL"}}}) : mapped_to_json(mapped_list);
 
         for(size_t i = 0; i < file.get_function_list_length(); i++){
-            json["functions"] += function_to_json(*functions[i]);
+            js["functions"] += function_to_json(*functions[i]);
         }
     }
     catch(const exception& e)
@@ -43,7 +43,7 @@ json file_to_json(File& file){
         cerr << "Couldn't retrieve function list for file " << file.get_name() << " : " << e.what() << endl;;
     }
 
-    return json;
+    return js;
 }
 
 json repository_to_json(Repository& repository){

@@ -13,22 +13,13 @@
 using namespace std;
 
 int main(){
-
-    cout << "here 0" << endl;
-
     // Search for available repositories
     vector<Repository*> available_repositories = parse_repositories();
 
-    cout << "here 1" << endl;
-
     // Retrieve saved repositories
     vector<Repository*> loaded_repositories = retrieve_data("storage.json");
-
-    cout << "here 2" << endl;
     
     load_repositories(available_repositories, loaded_repositories);
-
-    cout << "here 3" << endl;
 
     ftxui::App screen = ftxui::App::TerminalOutput();
 
