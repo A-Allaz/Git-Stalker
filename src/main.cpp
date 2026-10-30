@@ -13,26 +13,36 @@
 using namespace std;
 
 int main(){
+    // Search for available repositories
     const vector<Repository*> available_repositories = parse_repositories();
 
     ftxui::App screen = ftxui::App::TerminalOutput();
 
+    // Init repositories & selectors lists
     vector<vector<Repository*>> repo_list = {available_repositories, available_repositories};
     vector<int> selectors;
     for(size_t i = 0; i < repo_list.size(); i++) {
         selectors.push_back(0);
     }
 
+    // TUI repository selector
     vector<Repository*> selected_repositories = select_repositories(repo_list, screen, selectors);
     
+    // Only parse the files and functions for the selected repositories
     for(auto& repository: selected_repositories){
         vector<File*> files = parse_files(repository);
         repository->set_file_list(files);
     }
 
+    // TUI mapper for selected repositories
     map_file_and_functions(selected_repositories[0], selected_repositories[1], screen);
     
     save_repositories(selected_repositories, "storage.json");
+
+    // Files and functions are handled inside the repository destructor
+    for(auto repository: available_repositories){
+        free(repository);
+    }
 
     return 0;
 };

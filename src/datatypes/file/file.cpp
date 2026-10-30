@@ -11,10 +11,16 @@ File::File(string name, Repository* repository){
     this->repository = repository;
 };
 
+File::~File(){
+    for(auto function: this->function_list){
+        free(function);
+    }
+};
+
 ostream& operator<<(ostream& os, File* file) {
     os << file->get_name();
 
     return os;
-}
+};
 
 #endif
