@@ -57,6 +57,39 @@ void parse_functions(TSNode node, const string& file_content, File& file){
             file.add_function(new Function(&file, extract_node(name_node, file_content), start.row + 1, end.row + 1));
         }
     }
+    /*
+    * Parsing for class constructors
+    */
+    else if (!strcmp(type, "method_definition")) {
+        TSNode name_node = ts_node_child_by_field_name(node, "name", 4);
+
+        if (!ts_node_is_null(name_node) &&
+            extract_node(name_node, file_content) == "constructor") {
+            TSNode body_node = ts_node_parent(node);
+
+            if (!ts_node_is_null(body_node) &&
+                !strcmp(ts_node_type(body_node), "class_body")) {
+                TSNode class_node = ts_node_parent(body_node);
+
+                if (!ts_node_is_null(class_node)) {
+                    TSNode class_name_node =
+                        ts_node_child_by_field_name(class_node, "name", 4);
+
+                    if (!ts_node_is_null(class_name_node)) {
+                        const TSPoint start = ts_node_start_point(node);
+                        const TSPoint end = ts_node_end_point(node);
+
+                        file.add_function(new Function(
+                            &file,
+                            extract_node(class_name_node, file_content),
+                            start.row + 1,
+                            end.row + 1
+                        ));
+                    }
+                }
+            }
+        }
+    }
 
     const uint32_t child_count = ts_node_child_count(node);
 
