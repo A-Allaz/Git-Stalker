@@ -14,4 +14,8 @@ Function::Function(File* file, string name, size_t starting_line, size_t ending_
     this->ending_line = ending_line;
 };
 
+Function::~Function(){
+    // Theorically nothing to free, "File* file" is freed by the repo.
+};
+
 #endif

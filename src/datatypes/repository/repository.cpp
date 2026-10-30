@@ -14,7 +14,13 @@ Repository::Repository(string name,  string location, Repository* mapped_to){
     this->mapped_to = mapped_to;
 };
 
-Repository::~Repository(){};
+Repository::~Repository(){
+    for(auto file: this->file_list){
+        free(file);
+    }
+
+    free(this->last_commit);
+};
 
 ostream& operator<<(ostream& os, Repository* repository){
     os << repository->get_repository_name();
