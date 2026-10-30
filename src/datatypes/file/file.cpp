@@ -12,8 +12,10 @@ File::File(string name, Repository* repository){
 };
 
 File::~File(){
-    for(auto function: this->function_list){
-        free(function);
+    if(this->get_function_list_length()){
+        for(auto function: this->function_list){
+            delete function;
+        }
     }
 };
 

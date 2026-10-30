@@ -7,4 +7,6 @@ vector<Repository*> retrieve_data(string file_name);
 
 void save_repositories(vector<Repository*>, string file_name);
 
+void load_repositories(vector<Repository*>& available_repositories, vector<Repository*>& loaded_repositories);
+
 #endif
