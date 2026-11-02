@@ -54,6 +54,8 @@ DEP := $(OBJ:.o=.d)
 
 all: git-submodules build install
 
+clean-build: clean build
+
 install:
 	mkdir -p $$HOME/.local/bin
 	cp git-stalker $$HOME/.local/bin/git-stalker
