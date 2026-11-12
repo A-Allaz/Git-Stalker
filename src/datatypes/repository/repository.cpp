@@ -6,6 +6,7 @@
 #include <repository/repository.h>
 
 #include <iostream>
+#include <utils/logger.h>
 
 using namespace std;
 
@@ -42,10 +43,10 @@ void Repository::update_last_commit(){
         __throw_runtime_error("Failed to open repository");
     }
     if(git_repository_head(&head, repository)){
-        cerr << "Failed to get HEAD reference" << endl;
+        log("[ERROR]: Failed to get HEAD reference");
     }
     if(git_commit_lookup(&(this->last_commit), repository, git_reference_target(head))){
-        cerr << "Failed to get commit" << endl;
+        log("[ERROR]: Failed to get commit");
         this->last_commit = nullptr;
     }
 

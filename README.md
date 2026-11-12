@@ -12,3 +12,4 @@ This project relies on the following works:
  - [ArthurSonzogni/FTXUI](https://github.com/ArthurSonzogni/FTXUI)
  - [tree-sitter](https://github.com/tree-sitter/tree-sitter)
  - [tree-sitter-typescript](https://github.com/tree-sitter/tree-sitter-typescript)
+ 

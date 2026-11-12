@@ -4,7 +4,8 @@
 #include <storage/storage_handler.h>
 #include <storage/json_handler.h>
 #include <utils/finder.h>
-#include<mapper/mapper.h>
+#include <mapper/mapper.h>
+#include <fstream>
 
 using namespace std;
 
@@ -100,6 +101,11 @@ void load_repositories(vector<Repository*>& available_repositories, vector<Repos
         for(size_t i = 0; i < available_repositories.size(); i++){
             if(available_repositories[i]->get_repository_name() == tmp_repository->get_repository_name()){
                 available_repositories[i] = loaded_repo;
+                
+                if(loaded_repo->get_last_commit() != tmp_repository->get_last_commit()){
+                    
+                }
+                
                 delete tmp_repository;
 
                 break;
