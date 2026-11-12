@@ -33,6 +33,7 @@ class Function {
         void set_mapped_list(vector<MappedType> target_list) { this->mapped_to_list = target_list; }
         void add_mapped_to(MappedType target){ this->mapped_to_list.push_back(target); };
         void set_status(Status new_status){ this->status = new_status; };
+        void set_lines(size_t new_start, size_t new_end){ this->starting_line = new_start; this->ending_line = new_end; }
 };
 
 #endif

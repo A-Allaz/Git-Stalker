@@ -2,6 +2,8 @@
 #define __FUNCTION_PARSER_CPP__
 
 #include <parser/typescript_parser/function_parser.h>
+#include <utils/logger.h>
+#include <utils/finder.h>
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -30,6 +32,7 @@ string extract_node(TSNode node, const string& file_content){
 
 void parse_functions(TSNode node, const string& file_content, File& file){
     const char* type = ts_node_type(node);
+    string function_name;
 
     /*
     * Parsing for "regular" functions
@@ -41,7 +44,31 @@ void parse_functions(TSNode node, const string& file_content, File& file){
             const TSPoint start = ts_node_start_point(node);
             const TSPoint end = ts_node_end_point(node);
 
-            file.add_function(new Function(&file, extract_node(name_node, file_content), start.row + 1, end.row + 1));
+            function_name = extract_node(name_node, file_content);
+
+            Function* function = new Function(&file, function_name, start.row + 1, end.row + 1);
+            Function* tmp = find_function_by_name(file.get_function_list(), function_name);
+
+            if(tmp == nullptr){
+                // Function does not exist in prior parsing
+                if(verbose > 1)
+                    log("Function " + function_name + " does not exist in prior parsing, adding it to the file.");
+                
+                file.add_function(function);
+            } else {
+                if(verbose > 0)
+                    log("Function " + function_name + " does exist in prior parsing, updating if needed.");
+                
+                if(
+                    (start.row + 1) != tmp->get_starting_line() || 
+                    (end.row + 1) != tmp->get_ending_line()
+                ){
+                    if(verbose > 1)
+                        log("Updating starting and ending lines of the function");
+
+                    tmp->set_lines(start.row + 1, end.row + 1);
+                }
+            }
         }
     } 
     /*
@@ -54,7 +81,31 @@ void parse_functions(TSNode node, const string& file_content, File& file){
             const TSPoint start = ts_node_start_point(node);
             const TSPoint end = ts_node_end_point(node);
 
-            file.add_function(new Function(&file, extract_node(name_node, file_content), start.row + 1, end.row + 1));
+            function_name = extract_node(name_node, file_content);
+
+            Function* function = new Function(&file, function_name, start.row + 1, end.row + 1);
+            Function* tmp = find_function_by_name(file.get_function_list(), function_name);
+
+            if(tmp == nullptr){
+                // Function does not exist in prior parsing
+                if(verbose > 1)
+                    log("Function " + function_name + " does not exist in prior parsing, adding it to the file.");
+                
+                file.add_function(function);
+            } else {
+                if(verbose > 0)
+                    log("Function " + function_name + " does exist in prior parsing, updating if needed.");
+                
+                if(
+                    (start.row + 1) != tmp->get_starting_line() || 
+                    (end.row + 1) != tmp->get_ending_line()
+                ){
+                    if(verbose > 1)
+                        log("Updating starting and ending lines of the function");
+
+                    tmp->set_lines(start.row + 1, end.row + 1);
+                }
+            }
         }
     }
     /*
@@ -79,12 +130,31 @@ void parse_functions(TSNode node, const string& file_content, File& file){
                         const TSPoint start = ts_node_start_point(node);
                         const TSPoint end = ts_node_end_point(node);
 
-                        file.add_function(new Function(
-                            &file,
-                            extract_node(class_name_node, file_content),
-                            start.row + 1,
-                            end.row + 1
-                        ));
+                        function_name = extract_node(class_name_node, file_content);
+
+                        Function* function = new Function(&file, function_name, start.row + 1, end.row + 1);
+                        Function* tmp = find_function_by_name(file.get_function_list(), function_name);
+
+                        if(tmp == nullptr){
+                            // Function does not exist in prior parsing
+                            if(verbose > 1)
+                                log("Function " + function_name + " does not exist in prior parsing, adding it to the file.");
+                            
+                            file.add_function(function);
+                        } else {
+                            if(verbose > 0)
+                                log("Function " + function_name + " does exist in prior parsing, updating if needed.");
+                            
+                            if(
+                                (start.row + 1) != tmp->get_starting_line() || 
+                                (end.row + 1) != tmp->get_ending_line()
+                            ){
+                                if(verbose > 1)
+                                    log("Updating starting and ending lines of the function");
+
+                                tmp->set_lines(start.row + 1, end.row + 1);
+                            }
+                        }
                     }
                 }
             }

@@ -2,7 +2,9 @@
 #define __FILE_PARSER_CPP__
 
 #include <parser/typescript_parser/file_parser.h>
+#include <utils/finder.h>
 #include <repository/repository.h>
+#include <utils/logger.h>
 
 using namespace std;
 namespace fs = filesystem;
@@ -24,7 +26,21 @@ vector<File*> parse_files(Repository* repository){
             const string file_name = iter->path().string();
 
             File* file = new File(file_name, repository);
-            files.push_back(file);
+            File* tmp = find_file_by_name(repository->get_file_list(), file->get_name());
+
+            if(tmp == nullptr){
+                // File does not exist in prior parsing, add it to the list.
+                if(verbose > 0)
+                    log("File " + file_name + " does not exist in prior parsing, adding it to the repository.");
+
+                files.push_back(file);
+            } else {
+                // File exist from prior parsing, just put it back.
+                if(verbose > 0)
+                    log("File " + file_name + " does exist in prior parsing, no changes done.");
+                
+                files.push_back(tmp);
+            }
 
             // Parse the file functions
             visit_file(*file, file_path);

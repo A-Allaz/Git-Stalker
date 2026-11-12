@@ -30,9 +30,9 @@ ofstream init_logfile(){
     string user = getenv("USERNAME") ? getenv("USERNAME") : getenv("USER");
     filesystem::path root_dir = filesystem::path("/home/") / user;
 
-    filesystem::create_directories(root_dir / ".gistalker/gitstalker_logs");
+    filesystem::create_directories(root_dir / ".gitstalker/gitstalker_logs");
 
-    return(ofstream(root_dir.string() + "/" + ".gistalker/gitstalker_logs" + build_log_timestamp() + ".log"));
+    return(ofstream(root_dir.string() + "/" + ".gitstalker/gitstalker_logs/" + build_log_timestamp() + ".log"));
 }
 
 void log(string message){
