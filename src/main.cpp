@@ -9,6 +9,7 @@
 #include <interface/selectors/mapping_selector.h>
 #include <storage/storage_handler.h>
 #include <utils/logger.h>
+#include <filesystem>
 
 using namespace std;
 
@@ -17,6 +18,11 @@ int main(){
     verbose = 0;
 
     // Init the log file and overwrite the std::cerr to it
+    string user = getenv("USERNAME") ? getenv("USERNAME") : getenv("USER");
+    filesystem::path root_dir = filesystem::path("/home/") / user;
+
+    filesystem::create_directories(root_dir / ".gitstalker");
+    
     const ofstream logfile = init_logfile();
     streambuf* std_cerr = cerr.rdbuf(logfile.rdbuf());    // May be used at termination to dump the logs in the terminal
 
