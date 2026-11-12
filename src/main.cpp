@@ -1,7 +1,6 @@
 #ifndef __MAIN_CPP__
 #define __MAIN_CPP__
 
-#include <cstdio>
 #include <parser/typescript_parser/repository_parser.h>
 #include <parser/typescript_parser/file_parser.h>
 #include <parser/typescript_parser/function_parser.h>
@@ -9,10 +8,18 @@
 #include <interface/selectors/repository_selector.h>
 #include <interface/selectors/mapping_selector.h>
 #include <storage/storage_handler.h>
+#include <utils/logger.h>
 
 using namespace std;
 
 int main(){
+    // Define the verbosity of the logs (for now: the deth of precision in the json parsing/writting)
+    verbose = 0;
+
+    // Init the log file and overwrite the std::cerr to it
+    const ofstream logfile = init_logfile();
+    streambuf* std_cerr = cerr.rdbuf(logfile.rdbuf());    // May be used at termination to dump the logs in the terminal
+
     // Search for available repositories
     vector<Repository*> available_repositories = parse_repositories();
 
@@ -48,6 +55,9 @@ int main(){
     for(auto repository: available_repositories){
         delete repository;
     }
+
+    // Return std_cerr to cerr
+    cerr.rdbuf(std_cerr);
 
     return 0;
 };

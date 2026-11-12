@@ -45,7 +45,8 @@ OBJECT_NAMES := \
 	storage_handler.o \
 	repository_selector.o \
 	mapping_selector.o \
-	finder.o
+	finder.o \
+	logger.o
 
 OBJ := $(addprefix $(BUILD_DIR)/,$(OBJECT_NAMES))
 DEP := $(OBJ:.o=.d)

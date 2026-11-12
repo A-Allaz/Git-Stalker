@@ -1,10 +1,12 @@
 #ifndef __REPOSITORY_CPP__
 #define __REPOSITORY_CPP__
 
+#include <file/file.h>
 #include <function/function.h>
 #include <repository/repository.h>
 
 #include <iostream>
+#include <utils/logger.h>
 
 using namespace std;
 
@@ -41,10 +43,11 @@ void Repository::update_last_commit(){
         __throw_runtime_error("Failed to open repository");
     }
     if(git_repository_head(&head, repository)){
-        __throw_runtime_error("Failed to get HEAD reference");
+        log("[ERROR]: Failed to get HEAD reference");
     }
     if(git_commit_lookup(&(this->last_commit), repository, git_reference_target(head))){
-        __throw_runtime_error("Failed to get commit");
+        log("[ERROR]: Failed to get commit");
+        this->last_commit = nullptr;
     }
 
     git_reference_free(head);

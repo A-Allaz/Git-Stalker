@@ -2,6 +2,9 @@
 #define __REPOSITORY_PARSER_CPP__
 
 #include <parser/typescript_parser/repository_parser.h>
+#include <utils/logger.h>
+#include<iostream>
+#include <filesystem>
 
 using namespace std;
 namespace fs = filesystem;
@@ -25,6 +28,7 @@ vector<Repository*> parse_repositories(){
             {
                 tmp->update_last_commit();
                 repositories.push_back(tmp);
+                log("Parsed repo: " + tmp->get_repository_name());
             } else {
                 delete tmp;
             }

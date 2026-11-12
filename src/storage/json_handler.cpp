@@ -2,6 +2,8 @@
 #define __JSON_HANDLER_CPP_
 
 #include <storage/json_handler.h>
+#include <utils/logger.h>
+#include <iostream>
 
 using namespace std;
 using json = nlohmann::json;
@@ -12,6 +14,10 @@ using json = nlohmann::json;
 
 json function_to_json(Function& function){
     vector<MappedType> mapped_list = function.get_mapped_list();
+
+    if(verbose > 1){
+        log("Writting function " + function.get_name() + " to json");
+    }
 
     return {
         {"name", function.get_name()},
@@ -26,13 +32,18 @@ json file_to_json(File& file){
     vector<Function*> functions;
     vector<MappedType> mapped_list;
 
+    if(verbose > 0){
+        log("Writting file " + file.get_name() + " to json");
+    }
+    
+    mapped_list = file.get_mapped_list();
+
+    js["name"] = file.get_name();
+    js["mapped_to"] = js["mapped_to"] = mapped_list.empty() ? json::array({json{{"name", "NULL"}}}) : mapped_to_json(mapped_list);
+
     try
     {
         functions = file.get_function_list();
-        mapped_list = file.get_mapped_list();
-
-        js["name"] = file.get_name();
-        js["mapped_to"] = js["mapped_to"] = mapped_list.empty() ? json::array({json{{"name", "NULL"}}}) : mapped_to_json(mapped_list);
 
         for(size_t i = 0; i < file.get_function_list_length(); i++){
             js["functions"] += function_to_json(*functions[i]);
@@ -50,6 +61,8 @@ json repository_to_json(Repository& repository){
     json json;
     Repository* mapped_to = repository.get_mapped_to_repository();
     vector<File*> files = repository.get_file_list();
+
+    log("Writting repository " + repository.get_repository_name() + " to json");
 
     json["name"] = repository.get_repository_name();
     json["location"] = repository.get_location();
