@@ -29,7 +29,7 @@ Repository::~Repository(){
 };
 
 ostream& operator<<(ostream& os, Repository* repository){
-    os << repository->get_repository_name();
+    os << repository->get_name();
     return os;
 }
 
@@ -43,10 +43,10 @@ void Repository::update_last_commit(){
         __throw_runtime_error("Failed to open repository");
     }
     if(git_repository_head(&head, repository)){
-        log("[ERROR]: Failed to get HEAD reference");
+        log("[ERROR] Failed to get HEAD reference");
     }
     if(git_commit_lookup(&(this->last_commit), repository, git_reference_target(head))){
-        log("[ERROR]: Failed to get commit");
+        log("[ERROR] Failed to get commit");
         this->last_commit = nullptr;
     }
 

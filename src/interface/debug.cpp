@@ -19,7 +19,7 @@ void print_repositories(vector<Repository*> repositories, string message){
     cout << message << endl;
 
     for(size_t i = 0; i < repositories.size(); i++){
-        cout << "(" << i << ") " << repositories[i]->get_repository_name() << endl;
+        cout << "(" << i << ") " << repositories[i]->get_name() << endl;
     }
 
     return;

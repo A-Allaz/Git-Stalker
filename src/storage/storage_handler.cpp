@@ -4,6 +4,7 @@
 #include <storage/storage_handler.h>
 #include <storage/json_handler.h>
 #include <utils/finder.h>
+#include <utils/logger.h>
 #include <mapper/mapper.h>
 #include <fstream>
 
@@ -93,19 +94,22 @@ void save_repositories(vector<Repository*> repositories, string file_name){
 
 void load_repositories(vector<Repository*>& available_repositories, vector<Repository*>& loaded_repositories){
     for(auto loaded_repo: loaded_repositories){
-        Repository* tmp_repository = find_repository_by_name(available_repositories, loaded_repo->get_repository_name());
+        Repository* tmp_repository = find_repository_by_name(available_repositories, loaded_repo->get_name());
 
         if(tmp_repository == nullptr){
-            throw runtime_error("Could not find " + loaded_repo->get_repository_name() + " in local filesystem");
+            throw runtime_error("Could not find " + loaded_repo->get_name() + " in local filesystem");
         }
 
         // Look for the not-loaded repo, replace it with the newly storage-loaded one and free the not-loaded one.
         for(size_t i = 0; i < available_repositories.size(); i++){
-            if(available_repositories[i]->get_repository_name() == tmp_repository->get_repository_name()){
+            if(available_repositories[i]->get_name() == tmp_repository->get_name()){
                 available_repositories[i] = loaded_repo;
                 
                 if(loaded_repo->get_last_commit() != tmp_repository->get_last_commit()){
-                    
+                    loaded_repo->set_status(Status::CHANGED);
+
+                    if(verbose > 0)
+                        log("Status updated to 'CHANGED' for " + loaded_repo->get_name());
                 }
                 
                 delete tmp_repository;

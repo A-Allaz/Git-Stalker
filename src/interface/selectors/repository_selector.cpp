@@ -32,7 +32,7 @@ vector<Repository*> select_repositories(vector<vector<Repository*>> repositories
         vector<string> repositories_names;
 
         for(size_t j = 0; j < repositories_list[i].size(); j++){
-            repositories_names.push_back(repositories_list[i][j]->get_repository_name());
+            repositories_names.push_back(repositories_list[i][j]->get_name());
         }
 
         repositories_names_list[i] = repositories_names;

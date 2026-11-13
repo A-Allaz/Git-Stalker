@@ -28,7 +28,7 @@ vector<Repository*> parse_repositories(){
             {
                 tmp->update_last_commit();
                 repositories.push_back(tmp);
-                log("Parsed repo: " + tmp->get_repository_name());
+                log("Parsed repo: " + tmp->get_name());
             } else {
                 delete tmp;
             }
@@ -46,7 +46,7 @@ vector<Repository*> parse_repositories(){
 
 bool is_in_vector(vector<Repository*> vector, Repository* repository){
     for(long unsigned int i = 0; i < vector.size(); i++){
-        if(vector[i]->get_repository_name() == repository->get_repository_name()){
+        if(vector[i]->get_name() == repository->get_name()){
             return true;
         }
     }
