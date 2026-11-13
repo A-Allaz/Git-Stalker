@@ -40,6 +40,9 @@ vector<File*> parse_files(Repository* repository){
                     log("File " + file_name + " does exist in prior parsing, no changes done.");
                 
                 files.push_back(tmp);
+
+                delete file;
+                file = tmp;
             }
 
             // Parse the file functions

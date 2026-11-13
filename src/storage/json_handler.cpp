@@ -87,7 +87,10 @@ json mapped_to_json(vector<MappedType> mapped_to_list){
 
     for(const auto& mapped_to: mapped_to_list){
         if(auto* function = get_if<Function*>(&mapped_to)){
-            json += {{"name", "FUNC-" + (*function)->get_name()}};
+            json += {
+                {"name", "FUNC-" + (*function)->get_name()},
+                {"file_name", (*function)->get_file()->get_name()}
+            };
         } else if(auto* file = get_if<File*>(&mapped_to)){
             json += {{"name", "FILE-" + (*file)->get_name()}};
         }
@@ -105,35 +108,35 @@ Function* json_to_function(json json, File* file){
     return new Function(file, json["name"], json["starting_line"], json["ending_line"]);
 }
 
-File* json_to_file(json json, Repository* repository, vector<Function*>& visited_functions){
+File* json_to_file(json json, Repository* repository){
     File* file = new File(json["name"], repository);
 
     for(const auto& json_function: json["functions"]){
         Function* function = json_to_function(json_function, file);
 
-        file->get_function_list().push_back(function);
-        visited_functions.push_back(function);
+        file->add_function(function);
     }
 
     return file;
 }
 
-Repository* json_to_repository(json json, vector<File*>& visited_files, vector<Function*>& visited_functions){
+Repository* json_to_repository(json json){
     Repository* repository = new Repository(json["name"], json["location"]);
 
     git_oid oid;
     git_repository* repo = nullptr;
     git_commit* commit = nullptr;
+
     git_oid_fromstr(&oid, json["last_commit"].get<string>().c_str());
     git_repository_open(&repo, repository->get_location().c_str());
     git_commit_lookup(&commit, repo, &oid);
+    
     repository->set_last_commit(commit);
 
     for(const auto& json_file: json["files"]){
-        File* file = json_to_file(json_file, repository, visited_functions);
+        File* file = json_to_file(json_file, repository);
 
-        repository->get_file_list().push_back(file);
-        visited_files.push_back(file);
+        repository->add_file(file);
     }
 
     return repository;

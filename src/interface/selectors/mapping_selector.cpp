@@ -122,7 +122,7 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
                             target_function_names.push_back(function->get_name());
                         }
 
-                        Function* target_function = find_function_by_name(target_functions, target_function_names[selected_target_function]);
+                        Function* target_function = find_function_by_name(target_functions, target_function_names[selected_target_function - 1]);
                         
                         map_file_to_function(origin_file, target_function);
                     }
