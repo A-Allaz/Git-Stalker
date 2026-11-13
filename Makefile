@@ -75,7 +75,7 @@ install-completions:
 	if [ -z "$$shell" ]; then shell="$${SHELL##*/}"; fi; \
 	case "$$shell" in \
 		bash) install -d "$(DATADIR)/bash-completion/completions"; \
-		      install -m 644 completions/bash/git-stalker "$(DATADIR)/bash-completion/completions/git-stalker" ;; \
+		      install -m 644 completions/bash/git_stalker "$(DATADIR)/bash-completion/completions/git-stalker" ;; \
 		zsh)  install -d "$(DATADIR)/zsh/site-functions"; \
 		      install -m 644 completions/zsh/_git-stalker "$(DATADIR)/zsh/site-functions/_git-stalker"; \
 		      echo 'For Zsh completion, add $(DATADIR)/zsh/site-functions to fpath before compinit.' ;; \

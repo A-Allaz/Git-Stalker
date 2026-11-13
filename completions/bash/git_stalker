@@ -1,0 +1,17 @@
+_git_stalker_completion()
+{
+    local current previous
+    current="${COMP_WORDS[COMP_CWORD]}"
+    previous=""
+    if (( COMP_CWORD > 0 )); then
+        previous="${COMP_WORDS[COMP_CWORD - 1]}"
+    fi
+
+    if [[ "$previous" == "--verbose" ]]; then
+        COMPREPLY=($(compgen -W '0 1 2' -- "$current"))
+    else
+        COMPREPLY=($(compgen -W '--help -h --verbose --clean-logs' -- "$current"))
+    fi
+}
+
+complete -F _git_stalker_completion git-stalker
