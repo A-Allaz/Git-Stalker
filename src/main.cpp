@@ -15,14 +15,6 @@ using namespace std;
 namespace fs = filesystem;
 
 int main(int argc, const char * argv[]){
-    // Init the log file and overwrite the std::cerr to it
-    string user = getenv("USERNAME") ? getenv("USERNAME") : getenv("USER");
-    fs::path root_dir = fs::path("/home/") / user;
-
-    fs::create_directories(root_dir / ".gitstalker");
-    
-    const ofstream logfile = init_logfile();
-
     // Handle git-stalker's options
     for(int i = 1; i < argc; i++){
         if(string_view(argv[i]) == "--help" || string_view(argv[i]) == "-h"){
@@ -56,6 +48,14 @@ int main(int argc, const char * argv[]){
             i++;
         }
     }
+
+    // Init the log file and overwrite the std::cerr to it
+    string user = getenv("USERNAME") ? getenv("USERNAME") : getenv("USER");
+    fs::path root_dir = fs::path("/home/") / user;
+
+    fs::create_directories(root_dir / ".gitstalker");
+    
+    const ofstream logfile = init_logfile();
 
     streambuf* std_cerr = cerr.rdbuf(logfile.rdbuf());    // May be used at termination to dump the logs in the terminal
 
