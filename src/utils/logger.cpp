@@ -10,6 +10,7 @@
 #include <filesystem>
 
 using namespace std;
+namespace fs = filesystem;
 
 int verbose = 0;
 
@@ -28,15 +29,22 @@ string build_log_timestamp(){
 
 ofstream init_logfile(){
     string user = getenv("USERNAME") ? getenv("USERNAME") : getenv("USER");
-    filesystem::path root_dir = filesystem::path("/home/") / user;
+    fs::path root_dir = fs::path("/home/") / user;
 
-    filesystem::create_directories(root_dir / ".gitstalker/gitstalker_logs");
+    fs::create_directories(root_dir / ".gitstalker/gitstalker_logs");
 
     return(ofstream(root_dir.string() + "/" + ".gitstalker/gitstalker_logs/" + build_log_timestamp() + ".log"));
 }
 
 void log(string message){
     cerr << "[" << build_log_timestamp() << "] " << message << endl;
+}
+
+void clean_logs(){
+    string user = getenv("USERNAME") ? getenv("USERNAME") : getenv("USER");
+    fs::path root_dir = fs::path("/home/") / user;
+
+    fs::remove_all(root_dir / ".gitstalker/gitstalker_logs");
 }
 
 #endif

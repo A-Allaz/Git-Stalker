@@ -12,18 +12,51 @@
 #include <filesystem>
 
 using namespace std;
+namespace fs = filesystem;
 
-int main(){
-    // Define the verbosity of the logs (for now: the deth of precision in the json parsing/writting)
-    verbose = 2;
-
+int main(int argc, const char * argv[]){
     // Init the log file and overwrite the std::cerr to it
     string user = getenv("USERNAME") ? getenv("USERNAME") : getenv("USER");
-    filesystem::path root_dir = filesystem::path("/home/") / user;
+    fs::path root_dir = fs::path("/home/") / user;
 
-    filesystem::create_directories(root_dir / ".gitstalker");
+    fs::create_directories(root_dir / ".gitstalker");
     
     const ofstream logfile = init_logfile();
+
+    // Handle git-stalker's options
+    for(int i = 1; i < argc; i++){
+        if(string_view(argv[i]) == "--help" || string_view(argv[i]) == "-h"){
+            cout << endl << "Welcome to the helper for [Git-Stalker]. You will find the available flags and their description as well as some usage examples for [Git-Stalker]" << endl << endl;
+            cout << "\t--help, -h  \t" << "Displays this helper." << endl;
+            cout << "\t--verbose X \t" << "Set the verbosity for the logs. X must be between 0 and 2." << endl;
+            cout << "\t--clean-logs\t" << "Clean the logs created by Git-Stalker" << endl;
+
+            return 0;
+        }
+        else if(string_view(argv[i]) == "--clean-logs"){
+            clean_logs();
+
+            return 0;
+        }
+        else if(string_view(argv[i]) == "--verbose"){
+            if(argc > i){
+                log("[ERROR] Value must be provided for verbose");
+                return 1;
+            }
+
+            const int value = atoi(argv[i + 1]);
+            
+            if(value >= 0 && value < 3){
+                verbose = value;
+            } else {
+                log("[ERROR] Invalid value for '--verbose'. Must be between 0 and 2");
+                return 1;
+            }
+
+            i++;
+        }
+    }
+
     streambuf* std_cerr = cerr.rdbuf(logfile.rdbuf());    // May be used at termination to dump the logs in the terminal
 
     // Search for available repositories

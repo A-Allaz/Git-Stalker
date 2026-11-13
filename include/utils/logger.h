@@ -14,4 +14,6 @@ ofstream init_logfile();
 
 void log(string message);
 
+void clean_logs();
+
 #endif
