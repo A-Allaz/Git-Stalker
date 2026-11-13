@@ -15,7 +15,7 @@ using namespace std;
 
 int main(){
     // Define the verbosity of the logs (for now: the deth of precision in the json parsing/writting)
-    verbose = 0;
+    verbose = 2;
 
     // Init the log file and overwrite the std::cerr to it
     string user = getenv("USERNAME") ? getenv("USERNAME") : getenv("USER");
@@ -28,7 +28,7 @@ int main(){
 
     // Search for available repositories
     vector<Repository*> available_repositories = parse_repositories();
-
+    
     // Retrieve saved repositories
     vector<Repository*> loaded_repositories = retrieve_data("storage.json");
     
@@ -51,7 +51,7 @@ int main(){
         vector<File*> files = parse_files(repository);
         repository->set_file_list(files);
     }
-
+    
     // TUI mapper for selected repositories
     map_file_and_functions(selected_repositories[0], selected_repositories[1], screen);
     

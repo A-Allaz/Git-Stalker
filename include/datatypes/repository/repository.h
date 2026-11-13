@@ -23,7 +23,7 @@ class Repository {
         Repository(string name, string location, Repository* mapped_to=nullptr);
         ~Repository();
 
-        string get_repository_name() const { return repository_name; };
+        string get_name() const { return repository_name; };
         string get_location() const { return location; };
         Repository* get_mapped_to_repository() const { return mapped_to; };
         vector<File*> get_file_list() const { return this->file_list; };

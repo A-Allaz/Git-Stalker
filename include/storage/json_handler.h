@@ -19,8 +19,8 @@ json mapped_to_json(vector<MappedType> mapped_to_list);
 
 Function* json_to_function(json json, File* file);
 
-File* json_to_file(json json, Repository* repository, vector<Function*>& visited_functions);
+File* json_to_file(json json, Repository* repository);
 
-Repository* json_to_repository(json json, vector<File*>& visited_files, vector<Function*>& visited_functions);
+Repository* json_to_repository(json json);
 
 #endif

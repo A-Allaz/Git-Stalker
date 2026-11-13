@@ -16,7 +16,7 @@ json function_to_json(Function& function){
     vector<MappedType> mapped_list = function.get_mapped_list();
 
     if(verbose > 1){
-        log("Writting function " + function.get_name() + " to json");
+        log("Writting FUNC " + function.get_name() + " to json");
     }
 
     return {
@@ -33,7 +33,7 @@ json file_to_json(File& file){
     vector<MappedType> mapped_list;
 
     if(verbose > 0){
-        log("Writting file " + file.get_name() + " to json");
+        log("Writting FILE " + file.get_name() + " to json");
     }
     
     mapped_list = file.get_mapped_list();
@@ -51,7 +51,7 @@ json file_to_json(File& file){
     }
     catch(const exception& e)
     {
-        cerr << "Couldn't retrieve function list for file " << file.get_name() << " : " << e.what() << endl;;
+        log("[ERROR] Couldn't retrieve function list for file " + file.get_name() + " : " + e.what());
     }
 
     return js;
@@ -62,17 +62,17 @@ json repository_to_json(Repository& repository){
     Repository* mapped_to = repository.get_mapped_to_repository();
     vector<File*> files = repository.get_file_list();
 
-    log("Writting repository " + repository.get_repository_name() + " to json");
+    log("Writting REPO " + repository.get_name() + " to json");
 
-    json["name"] = repository.get_repository_name();
+    json["name"] = repository.get_name();
     json["location"] = repository.get_location();
-    json["mapped_to"] = mapped_to != nullptr ? mapped_to->get_repository_name() : "NULL";
+    json["mapped_to"] = mapped_to != nullptr ? mapped_to->get_name() : "NULL";
     json["last_commit"] = git_oid_tostr_s(git_commit_id(repository.get_last_commit()));
 
     try{
         repository.get_file_list();
     } catch(const exception& e){
-        cerr << "Couldn't retrieve function list for file " << repository.get_repository_name() << " : " << e.what() << endl;;
+        log("[ERROR] Couldn't retrieve function list for file " + repository.get_name() + " : " + e.what());
     }
     
     for(size_t i = 0; i < repository.get_file_list_size(); i++){
@@ -87,7 +87,10 @@ json mapped_to_json(vector<MappedType> mapped_to_list){
 
     for(const auto& mapped_to: mapped_to_list){
         if(auto* function = get_if<Function*>(&mapped_to)){
-            json += {{"name", "FUNC-" + (*function)->get_name()}};
+            json += {
+                {"name", "FUNC-" + (*function)->get_name()},
+                {"file_name", (*function)->get_file()->get_name()}
+            };
         } else if(auto* file = get_if<File*>(&mapped_to)){
             json += {{"name", "FILE-" + (*file)->get_name()}};
         }
@@ -102,39 +105,52 @@ json mapped_to_json(vector<MappedType> mapped_to_list){
 //-------------------------------------------------------------------------------------------------
 
 Function* json_to_function(json json, File* file){
-    return new Function(file, json["name"], json["starting_line"], json["ending_line"]);
+    Function* function = new Function(file, json["name"], json["starting_line"], json["ending_line"]);
+    if(verbose > 1)
+        log("Loaded FUNC " + function->get_name());
+    return function;
 }
 
-File* json_to_file(json json, Repository* repository, vector<Function*>& visited_functions){
+File* json_to_file(json json, Repository* repository){
     File* file = new File(json["name"], repository);
+
+    if(verbose > 0)
+        log("Loading FILE " + file->get_name());
 
     for(const auto& json_function: json["functions"]){
         Function* function = json_to_function(json_function, file);
 
-        file->get_function_list().push_back(function);
-        visited_functions.push_back(function);
+        file->add_function(function);
     }
+
+    if(verbose > 0)
+        log("Finished Loading FILE " + file->get_name());
 
     return file;
 }
 
-Repository* json_to_repository(json json, vector<File*>& visited_files, vector<Function*>& visited_functions){
+Repository* json_to_repository(json json){
     Repository* repository = new Repository(json["name"], json["location"]);
+
+    log("Loading REPO " + repository->get_name());
 
     git_oid oid;
     git_repository* repo = nullptr;
     git_commit* commit = nullptr;
+
     git_oid_fromstr(&oid, json["last_commit"].get<string>().c_str());
     git_repository_open(&repo, repository->get_location().c_str());
     git_commit_lookup(&commit, repo, &oid);
+    
     repository->set_last_commit(commit);
 
     for(const auto& json_file: json["files"]){
-        File* file = json_to_file(json_file, repository, visited_functions);
+        File* file = json_to_file(json_file, repository);
 
-        repository->get_file_list().push_back(file);
-        visited_files.push_back(file);
+        repository->add_file(file);
     }
+
+    log("Loaded " + repository->get_name());
 
     return repository;
 }

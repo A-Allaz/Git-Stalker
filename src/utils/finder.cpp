@@ -7,7 +7,7 @@ using namespace std;
 
 Repository* find_repository_by_name(vector<Repository*> repositories, string name){
     for(auto& repository: repositories){
-        if(repository->get_repository_name() == name){
+        if(repository->get_name() == name){
             return repository;
         }
     }
