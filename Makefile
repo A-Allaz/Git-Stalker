@@ -17,6 +17,10 @@ LDLIBS   += $(shell pkg-config --libs libgit2)
 TARGET    := git-stalker
 BUILD_DIR := .build
 
+PREFIX    ?= $(HOME)/.local
+BINDIR    ?= $(PREFIX)/bin
+DATADIR   ?= $(PREFIX)/share
+
 VPATH := \
 	src \
 	src/datatypes/file \
@@ -51,21 +55,31 @@ OBJECT_NAMES := \
 OBJ := $(addprefix $(BUILD_DIR)/,$(OBJECT_NAMES))
 DEP := $(OBJ:.o=.d)
 
-.PHONY: all build clean
+.PHONY: all build clean install install-completions
 
-all: git-submodules build install
+all: git-submodules install
 
 clean-build: clean build
 
-install:
-	mkdir -p $$HOME/.local/bin
-	cp git-stalker $$HOME/.local/bin/git-stalker
-	chmod +x $$HOME/.local/bin/git-stalker
+install: build install-completions
+	install -d "$(BINDIR)"
+	install -m 755 "$(TARGET)" "$(BINDIR)/$(TARGET)"
 	@case ":$$PATH:" in \
-		*":$$HOME/.local/bin:"*) ;; \
-		*) echo "Warning: $$HOME/.local/bin is not in PATH"; \
-		   echo 'Add this to your shell config:'; \
-		   echo '  export PATH="$$HOME/.local/bin:$$PATH"';; \
+		*":$(BINDIR):"*) ;; \
+		*) echo "Warning: $(BINDIR) is not in PATH"; \
+		   echo 'Add the binary directory to PATH in your shell configuration.';; \
+	esac
+
+install-completions:
+	@shell='$(COMPLETION_SHELL)'; \
+	if [ -z "$$shell" ]; then shell="$${SHELL##*/}"; fi; \
+	case "$$shell" in \
+		bash) install -d "$(DATADIR)/bash-completion/completions"; \
+		      install -m 644 completions/bash/git-stalker "$(DATADIR)/bash-completion/completions/git-stalker" ;; \
+		zsh)  install -d "$(DATADIR)/zsh/site-functions"; \
+		      install -m 644 completions/zsh/_git-stalker "$(DATADIR)/zsh/site-functions/_git-stalker"; \
+		      echo 'For Zsh completion, add $(DATADIR)/zsh/site-functions to fpath before compinit.' ;; \
+		*)    echo "No completion installed for shell '$$shell'. Use COMPLETION_SHELL=bash or zsh to choose one." ;; \
 	esac
 
 build: $(TARGET)

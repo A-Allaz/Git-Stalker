@@ -1,0 +1,11 @@
+#compdef git-stalker
+
+_git-stalker() {
+    _arguments -s -S \
+        '(-h --help)-h[Show help]' \
+        '(-h --help)--help[Show help]' \
+        '--clean-logs[Remove log files]' \
+        '--verbose[Set log verbosity]:verbosity:(0 1 2)'
+}
+
+_git-stalker "$@"
