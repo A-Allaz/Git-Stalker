@@ -15,6 +15,9 @@ using namespace std;
 namespace fs = filesystem;
 
 int main(int argc, const char * argv[]){
+    const ofstream logfile = init_logfile();
+    streambuf* std_cerr = cerr.rdbuf(logfile.rdbuf());    // May be used at termination to dump the logs in the terminal
+
     // Handle git-stalker's options
     for(int i = 1; i < argc; i++){
         if(string_view(argv[i]) == "--help" || string_view(argv[i]) == "-h"){
@@ -31,7 +34,7 @@ int main(int argc, const char * argv[]){
             return 0;
         }
         else if(string_view(argv[i]) == "--verbose"){
-            if(argc > i){
+            if(i > argc - 1){
                 log("[ERROR] Value must be provided for verbose");
                 return 1;
             }
@@ -54,10 +57,6 @@ int main(int argc, const char * argv[]){
     fs::path root_dir = fs::path("/home/") / user;
 
     fs::create_directories(root_dir / ".gitstalker");
-    
-    const ofstream logfile = init_logfile();
-
-    streambuf* std_cerr = cerr.rdbuf(logfile.rdbuf());    // May be used at termination to dump the logs in the terminal
 
     // Search for available repositories
     vector<Repository*> available_repositories = parse_repositories();
@@ -67,7 +66,7 @@ int main(int argc, const char * argv[]){
     
     load_repositories(available_repositories, loaded_repositories);
 
-    ftxui::App screen = ftxui::App::TerminalOutput();
+    ftxui::App screen = ftxui::App::Fullscreen();
 
     // Init repositories & selectors lists
     vector<vector<Repository*>> repo_list = {available_repositories, available_repositories};
