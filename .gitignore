@@ -72,3 +72,6 @@ compile_commands.json
 
 # opencode config
 *opencode.json
+
+# AI discussion summaries
+.ai_summaries

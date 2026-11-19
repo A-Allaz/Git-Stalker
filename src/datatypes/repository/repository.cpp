@@ -39,6 +39,8 @@ void Repository::update_last_commit(){
     git_repository* repository = nullptr;
     git_reference* head = nullptr;
 
+    log("Updating " + this->repository_name + " last commit");
+
     if (git_repository_open(&repository, this->get_location().c_str())){
         __throw_runtime_error("Failed to open repository");
     }

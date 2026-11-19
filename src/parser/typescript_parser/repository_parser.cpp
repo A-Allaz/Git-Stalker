@@ -16,11 +16,10 @@ vector<Repository*> parse_repositories(){
     string user = getenv("USERNAME") ? getenv("USERNAME") : getenv("USER");
     fs::path root_dir = fs::path("/home/") / user;  // Gets the home directory of the assumed user
     
-    for(auto iter = fs::recursive_directory_iterator(root_dir); iter != fs::recursive_directory_iterator();)
+    for(auto iter = fs::recursive_directory_iterator(root_dir); iter != fs::recursive_directory_iterator(); ++iter)
     {
-        if(iter->path().parent_path().string() != root_dir && iter->path().string().find(".git") != string::npos)
-        {
-            const string repo_path = iter->path().parent_path().string();
+        if(iter->path().string() != root_dir && fs::exists(iter->path() / ".git")){
+            const string repo_path = iter->path().string();
             const string repo_name = repo_path.substr(repo_path.find(user) + user.length() + 1);
             Repository* tmp = new Repository(repo_name, root_dir.string() + "/" + repo_name, nullptr);
 
@@ -34,11 +33,9 @@ vector<Repository*> parse_repositories(){
             }
 
             // go back to the previous folder and skip loop iteration (already managed by "iter.pop()")
-            iter.pop();
+            iter.disable_recursion_pending();
             continue;
         }
-
-        iter++;
     }
 
     return repositories;
