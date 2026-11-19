@@ -16,7 +16,7 @@ vector<Repository*> retrieve_data(string file_name){
 
     // Return empty vector if storage file isn't found
     if(file.fail()){
-        log("Could not open storage file: " + file_name);
+        log("[WARNING] Could not open storage file: " + file_name);
         return repositories;
     }
     

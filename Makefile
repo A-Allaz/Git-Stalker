@@ -67,7 +67,8 @@ install: build install-completions
 	@case ":$$PATH:" in \
 		*":$(BINDIR):"*) ;; \
 		*) echo "Warning: $(BINDIR) is not in PATH"; \
-		   echo 'Add the binary directory to PATH in your shell configuration.';; \
+		   echo 'Add this to your shell config:'; \
+		   echo '  export PATH="$$HOME/.local/bin:$$PATH"';; \
 	esac
 
 install-completions:
