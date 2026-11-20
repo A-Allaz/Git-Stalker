@@ -1,3 +1,8 @@
+---
+name: git-stalker-memory-management
+description: Follow Git-Stalker memory ownership, raw-pointer cleanup, member access, and formatting conventions when modifying C++ code.
+---
+
 # Skill: Git-Stalker Memory Management & Style
 
 Use this skill when managing pointers, memory cleanup, member access, namespaces, and code formatting in git-stalker.
