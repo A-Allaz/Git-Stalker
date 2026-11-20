@@ -79,11 +79,12 @@ vector<ftxui::Component> file_selector(
     
 }
 
-void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &screen){
+int map_file_and_functions(Repository* origin, Repository* target, ftxui::App &screen){
     int selected_origin_file = 0;
     int selected_origin_function = 0;
     int selected_target_file = 0;
     int selected_target_function = 0;
+    int return_value = 0;
 
     vector<string> origin_file_names = {};
     vector<string> target_file_names = {};
@@ -101,11 +102,11 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
         - origin_functions_width
         - target_files_width;
 
-    const int exit_row_height = max(1, screen_height / 10);
+    const int bottom_row_height = max(1, screen_height / 10);
     const int summary_row_height = 1;
     const int mapping_height = max(
         1,
-        screen_height - exit_row_height - summary_row_height - 5
+        screen_height - bottom_row_height - summary_row_height - 5
     );
     const int summary_width = max(1, (screen_width - 3) / 2);
 
@@ -198,7 +199,15 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
     auto target_tab_container = ftxui::Container::Tab(target_radioboxes, &selected_target_file);
 
     // Exit button
-    auto exit_button = ftxui::Button("Exit", screen.ExitLoopClosure());
+    auto exit_button = ftxui::Button("Exit", [&] {
+        return_value = 0;
+        screen.ExitLoopClosure()();
+    });
+
+    auto select_repo_button = ftxui::Button("Select Repositories", [&] {
+        return_value = 1;
+        screen.ExitLoopClosure()();
+    });
 
     // Build global container
     auto container = ftxui::Container::Vertical({
@@ -208,7 +217,10 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
             target_tab_menu,
             target_tab_container
         }),
-        exit_button
+        ftxui::Container::Horizontal({
+            exit_button,
+            select_repo_button
+        })
     });
 
     auto renderer = ftxui::Renderer(container, [&] {
@@ -248,8 +260,9 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
             }) | ftxui::size(ftxui::HEIGHT, ftxui::EQUAL, mapping_height),
             ftxui::separator(),
             ftxui::hbox({
-                exit_button->Render()
-            }) | ftxui::size(ftxui::HEIGHT, ftxui::GREATER_THAN, exit_row_height)
+                exit_button->Render(),
+                select_repo_button->Render()
+            }) | ftxui::size(ftxui::HEIGHT, ftxui::GREATER_THAN, bottom_row_height)
         }) | ftxui::border;
     });
 
@@ -257,7 +270,17 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
     // 'selected_..._file - 1' is there to compensate the index 0 in the tab that happens to be the file itself.
     auto enter_handler = ftxui::CatchEvent(
         renderer, [&](ftxui::Event event) {
-            if(event == ftxui::Event::Return){
+            // If focus is on a bottom row button, handle "Enter" as a click on that button
+            if (
+                event == ftxui::Event::Return &&
+                (
+                    exit_button->Focused() || 
+                    select_repo_button->Focused()
+                )
+            ){
+                return false;
+            } 
+            else if(event == ftxui::Event::Return){
                 File* origin_file = find_file_by_name(origin->get_file_list(), origin_file_names[selected_origin_file]);
                 vector<Function*> origin_functions = origin_file->get_function_list();
                 vector<string> origin_function_names = {};
@@ -266,7 +289,7 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
                     origin_function_names.push_back(function->get_name());
                 }
                 
-                // Case File -> ?
+                // Case File -> Unknown
                 if(selected_origin_function == 0){
                     File* target_file = find_file_by_name(target->get_file_list(), target_file_names[selected_target_file]);
 
@@ -287,7 +310,7 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
                         
                         map_file_to_function(origin_file, target_function);
                     }
-                // Case Function -> ?
+                // Case Function -> Unknown
                 } else {
                     Function* origin_function = find_function_by_name(origin_functions, origin_function_names[selected_origin_function - 1]);
                     File* target_file = find_file_by_name(target->get_file_list(), target_file_names[selected_target_file]);
@@ -324,6 +347,7 @@ void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &
     );
 
     screen.Loop(enter_handler);
+    return return_value;
 }
 
 #endif
