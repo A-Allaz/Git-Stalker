@@ -71,27 +71,30 @@ int main(int argc, const char * argv[]){
     }
 
     ftxui::App screen = ftxui::App::Fullscreen();
+    int map_return_code = 0;
 
-    // Init repositories & selectors lists
-    vector<vector<Repository*>> repo_list = {available_repositories, available_repositories};
-    vector<int> selectors;
-    for(size_t i = 0; i < repo_list.size(); i++) {
-        selectors.push_back(0);
-    }
+    do{
+        // Init repositories & selectors lists
+        vector<vector<Repository*>> repo_list = {available_repositories, available_repositories};
+        vector<int> selectors;
+        for(size_t i = 0; i < repo_list.size(); i++) {
+            selectors.push_back(0);
+        }
 
-    // TUI repository selector
-    vector<Repository*> selected_repositories = select_repositories(repo_list, screen, selectors);
-    
-    // Only parse the files and functions for the selected repositories
-    for(auto& repository: selected_repositories){
-        vector<File*> files = parse_files(repository);
-        repository->set_file_list(files);
-    }
-    
-    // TUI mapper for selected repositories
-    map_file_and_functions(selected_repositories[0], selected_repositories[1], screen);
-    
-    save_repositories(selected_repositories);
+        // TUI repository selector
+        vector<Repository*> selected_repositories = select_repositories(repo_list, screen, selectors);
+        
+        // Only parse the files and functions for the selected repositories
+        for(auto& repository: selected_repositories){
+            vector<File*> files = parse_files(repository);
+            repository->set_file_list(files);
+        }
+        
+        // TUI mapper for selected repositories
+        map_return_code = map_file_and_functions(selected_repositories[0], selected_repositories[1], screen);
+        
+        save_repositories(selected_repositories);
+    } while(map_return_code);
 
     // Files and functions are handled inside the repository destructor
     for(auto repository: available_repositories){
