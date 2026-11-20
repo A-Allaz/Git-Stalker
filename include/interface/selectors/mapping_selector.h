@@ -20,6 +20,6 @@ vector<string> function_selector(vector<Function*> functions);
 
 vector<ftxui::Component> file_selector(vector<File*> files, int &selected_function);
 
-void map_file_and_functions(Repository* origin, Repository* target, ftxui::App &screen);
+int map_file_and_functions(Repository* origin, Repository* target, ftxui::App &screen);
 
 #endif
