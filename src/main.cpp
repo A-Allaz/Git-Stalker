@@ -18,6 +18,10 @@ int main(int argc, const char * argv[]){
     const ofstream logfile = init_logfile();
     streambuf* std_cerr = cerr.rdbuf(logfile.rdbuf());    // May be used at termination to dump the logs in the terminal
 
+//-------------------------------------------------------------------------------------------------
+// No-Head mode & Options of Git-Stalker
+//-------------------------------------------------------------------------------------------------
+
     // Handle git-stalker's options
     for(int i = 1; i < argc; i++){
         if(string_view(argv[i]) == "--help" || string_view(argv[i]) == "-h"){
@@ -25,17 +29,21 @@ int main(int argc, const char * argv[]){
             cout << "\t--help, -h  \t" << "Displays this helper." << endl;
             cout << "\t--verbose X \t" << "Set the verbosity for the logs. X must be between 0 and 2." << endl;
             cout << "\t--clean-logs\t" << "Clean the logs created by Git-Stalker" << endl;
+            cout << "\t--get-target\t" << "[r/f] [<origin>] Gives the mapping target of the <origin> repository (r) or file/function (f)" << endl;
 
+            cerr.rdbuf(std_cerr);
             return 0;
         }
         else if(string_view(argv[i]) == "--clean-logs"){
             clean_logs();
 
+            cerr.rdbuf(std_cerr);
             return 0;
         }
         else if(string_view(argv[i]) == "--verbose"){
             if(i > argc - 1){
                 log("[ERROR] Value must be provided for verbose");
+                cerr.rdbuf(std_cerr);
                 return 1;
             }
 
@@ -45,12 +53,32 @@ int main(int argc, const char * argv[]){
                 verbose = value;
             } else {
                 log("[ERROR] Invalid value for '--verbose'. Must be between 0 and 2");
+                cerr.rdbuf(std_cerr);
                 return 1;
             }
 
             i++;
         }
+        else if(string_view(argv[i]) == "--get-target"){
+            if(i > argc - 2){
+                log("[ERROR] Must specify a target type (r=repository, f=file)");
+            }
+            else if(i > argc - 1){
+                log("[ERROR] Must specify a target name");
+            }
+
+            if(string_view(argv[i + 1]) == "r"){
+
+            }
+            else if(string_view(argv[i + 1]) == "f"){
+
+            }
+        }
     }
+
+//-------------------------------------------------------------------------------------------------
+// TUI mode of Git-Stalker
+//-------------------------------------------------------------------------------------------------
 
     // Init the log file and overwrite the std::cerr to it
     string user = getenv("USERNAME") ? getenv("USERNAME") : getenv("USER");
