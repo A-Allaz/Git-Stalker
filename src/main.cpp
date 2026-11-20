@@ -60,11 +60,15 @@ int main(int argc, const char * argv[]){
 
     // Search for available repositories
     vector<Repository*> available_repositories = parse_repositories();
+    vector<Repository*> loaded_repositories = {};
+
+    if(!(fs::create_directories(root_dir / ".gitstalker/gitstalker_mappings"))){
+        // Stored mapping should exist
     
-    // Retrieve saved repositories
-    vector<Repository*> loaded_repositories = retrieve_data("storage.json");
-    
-    load_repositories(available_repositories, loaded_repositories);
+        // Retrieve & load saved repositories
+        vector<Repository*> loaded_repositories = retrieve_data();
+        load_repositories(available_repositories, loaded_repositories);
+    }
 
     ftxui::App screen = ftxui::App::Fullscreen();
 
@@ -87,7 +91,7 @@ int main(int argc, const char * argv[]){
     // TUI mapper for selected repositories
     map_file_and_functions(selected_repositories[0], selected_repositories[1], screen);
     
-    save_repositories(selected_repositories, "storage.json");
+    save_repositories(selected_repositories);
 
     // Files and functions are handled inside the repository destructor
     for(auto repository: available_repositories){
