@@ -54,6 +54,7 @@ void Repository::update_last_commit(){
 
     git_reference_free(head);
     git_repository_free(repository);
+    git_libgit2_shutdown();
 }
 
 #endif

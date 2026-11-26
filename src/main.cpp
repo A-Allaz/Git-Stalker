@@ -30,7 +30,7 @@ int main(int argc, const char * argv[]){
             cout << "\t--help, -h  \t" << "Displays this helper." << endl;
             cout << "\t--verbose X \t" << "Set the verbosity for the logs. X must be between 0 and 2." << endl;
             cout << "\t--clean-logs\t" << "Clean the logs created by Git-Stalker" << endl;
-            cout << "\t--get-target\t" << "[r/f] [<origin>] Gives the mapping target of the <origin> repository (r), file (F) or function (f)" << endl;
+            cout << "\t--get-target\t" << "[r/F/f] [<origin>] Gives the mapping target of the <origin> repository (r), file (F) or function (f)" << endl;
 
             cerr.rdbuf(std_cerr);
             return 0;
@@ -62,13 +62,17 @@ int main(int argc, const char * argv[]){
         }
         else if(string_view(argv[i]) == "--get-target"){
             if(i > argc - 2){
-                log("[ERROR] Must specify a target type (r=repository, f=file)");
+                log("[ERROR] Must specify a target type (r=repository, F=file, f=function)");
+                cerr.rdbuf(std_cerr);
+                return 1;
             }
             else if(i > argc - 1){
                 log("[ERROR] Must specify a target name");
+                cerr.rdbuf(std_cerr);
+                return 1;
             }
 
-            if(string_view(argv[i + 1]) == "r"){ // Reporisotory
+            if(string_view(argv[i + 1]) == "r"){ // Repository
 
             }
             else if(string_view(argv[i + 1]) == "F"){ // File
@@ -77,16 +81,26 @@ int main(int argc, const char * argv[]){
                 const vector<string> target_paths = get_file_target(origin_path.string());
 
                 if(!target_paths.size()){
-                    cout << "Did not found any mappeing target for " << argv[i + 2] << endl;
+                    cout << "Did not found any mapping target for " << argv[i + 2] << endl;
                 } else {
-                    // Handle the reste.
+                    cout << argv[i + 2] << " is mapped to:" << endl;
+
+                    for(const auto& target: target_paths){
+                        const string uri = "file://" + target;
+                        cout << "\t" << uri << endl;
+                    }
                 }
             }
             else if(string_view(argv[i + 1]) == "f"){ // Function
 
             } else {
                 log("[ERROR] Invalid target type. Must be 'r' or 'f'");
+                cerr.rdbuf(std_cerr);
+                return 1;
             }
+
+            cerr.rdbuf(std_cerr);
+            return 0;
         }
     }
 
