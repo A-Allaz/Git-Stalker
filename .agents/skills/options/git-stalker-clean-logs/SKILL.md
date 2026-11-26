@@ -17,7 +17,7 @@ If using the built binary in the project root rather than an installed command:
 ./git-stalker --clean-logs
 ```
 
-The implementation in `src/utils/logger.cpp` recursively removes:
+The command recursively removes:
 
 ```text
 /home/<user>/.gitstalker/gitstalker_logs/
@@ -27,8 +27,8 @@ The implementation in `src/utils/logger.cpp` recursively removes:
 
 - This removes all application logs, not just old ones.
 - It does not intentionally remove mapping files in the sibling `gitstalker_mappings/` directory or modify Git repositories.
-- The command initializes a log file before removing the log directory; do not rely on a persistent cleanup log being left behind.
-- It exits after cleanup. Options following `--clean-logs` are ignored.
+- Do not rely on a persistent cleanup log being left behind.
+- Run cleanup as a standalone command. It exits after cleanup; combining it with `--show-logs` displays logs instead of deleting them.
 - Do not replace the command with a broad deletion of `.gitstalker/`; that would also remove mapping data.
 
 Report the exit status and any observed errors. If cleanup fails, investigate the actual directory and permissions rather than escalating to a broader deletion.

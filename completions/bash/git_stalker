@@ -15,7 +15,7 @@ _git_stalker_completion()
         compopt -o filenames
         mapfile -t COMPREPLY < <(compgen -f -- "$current")
     else
-        COMPREPLY=($(compgen -W '--help -h --verbose --clean-logs --get-target' -- "$current"))
+        COMPREPLY=($(compgen -W '--help -h --verbose --clean-logs --get-target --show-logs' -- "$current"))
     fi
 }
 

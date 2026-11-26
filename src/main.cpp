@@ -209,6 +209,9 @@ int main(int argc, const char * argv[]){
     // Return std_cerr to cerr
     cerr.rdbuf(std_cerr);
 
+    fs::path logs = get_latest_log_file();
+    dump_logs(logs);
+
     return 0;
 };
 
