@@ -20,6 +20,18 @@ int main(int argc, const char * argv[]){
 // Log Dumping option handling and Logfile initialization
 //-------------------------------------------------------------------------------------------------
 
+    // Handle --show-logs option
+    for(int i = 1; i < argc; i++){
+        if(string_view(argv[i]) == "--show-logs"){
+            fs::path latest_logs = get_latest_log_file();
+
+            print_logs(latest_logs);
+
+            return 0;
+        }
+    }
+
+    // Log file initialization
     const ofstream logfile = init_logfile();
     streambuf* std_cerr = cerr.rdbuf(logfile.rdbuf());    // May be used at termination to dump the logs in the terminal
 
@@ -51,7 +63,7 @@ int main(int argc, const char * argv[]){
         }
     }
 
-    // Handle git-stalker's options
+    // Handle other git-stalker's options
     for(int i = 1; i < argc; i++){
         if(string_view(argv[i]) == "--help" || string_view(argv[i]) == "-h"){
             cout << endl << "Welcome to the helper for [Git-Stalker]. You will find the available flags and their description as well as some usage examples for [Git-Stalker]" << endl << endl;
