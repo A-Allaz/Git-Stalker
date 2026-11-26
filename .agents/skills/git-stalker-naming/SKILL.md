@@ -1,3 +1,8 @@
+---
+name: git-stalker-naming
+description: Apply Git-Stalker naming conventions when naming C++ variables, functions, classes, enums, constants, or header guards.
+---
+
 # Skill: Git-Stalker Naming Conventions
 
 Use this skill when naming variables, functions, classes, enums, and constants in git-stalker.

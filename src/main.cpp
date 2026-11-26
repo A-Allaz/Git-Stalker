@@ -16,6 +16,10 @@ using namespace std;
 namespace fs = filesystem;
 
 int main(int argc, const char * argv[]){
+//-------------------------------------------------------------------------------------------------
+// Log Dumping option handling and Logfile initialization
+//-------------------------------------------------------------------------------------------------
+
     const ofstream logfile = init_logfile();
     streambuf* std_cerr = cerr.rdbuf(logfile.rdbuf());    // May be used at termination to dump the logs in the terminal
 
@@ -86,15 +90,14 @@ int main(int argc, const char * argv[]){
                     cout << argv[i + 2] << " is mapped to:" << endl;
 
                     for(const auto& target: target_paths){
-                        const string uri = "file://" + target;
-                        cout << "\t" << uri << endl;
+                        cout << "\t" << target << endl;
                     }
                 }
             }
             else if(string_view(argv[i + 1]) == "f"){ // Function
 
             } else {
-                log("[ERROR] Invalid target type. Must be 'r' or 'f'");
+                log("[ERROR] Invalid target type. Must be 'r', 'F' or 'f'");
                 cerr.rdbuf(std_cerr);
                 return 1;
             }

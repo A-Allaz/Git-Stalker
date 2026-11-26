@@ -1,3 +1,8 @@
+---
+name: git-stalker-logging
+description: Follow Git-Stalker logging and error-handling conventions when implementing diagnostics, exceptions, or verbosity control.
+---
+
 # Skill: Git-Stalker Error & Log Handling
 
 Use this skill when implementing logging, error reporting, exceptions, and verbosity control in git-stalker.
