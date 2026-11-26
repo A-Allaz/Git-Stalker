@@ -11,7 +11,8 @@ _git-stalker() {
         '(-h --help)--help[Show help]' \
         '--clean-logs[Remove log files]' \
         '--verbose[Set log verbosity]:verbosity:(0 1 2)' \
-        '--get-target[Select target mode]:target mode:(r F f)'
+        '--get-target[Select target mode]:target mode:(r F f)'\
+        '--show-logs[Print latest logs]'
 }
 
 compdef _git-stalker git-stalker

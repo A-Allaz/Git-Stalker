@@ -22,4 +22,6 @@ void clean_logs();
 
 void print_logs(fs::path latest_logs);
 
+void dump_logs(fs::path log_file);
+
 #endif

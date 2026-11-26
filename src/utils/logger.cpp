@@ -90,4 +90,24 @@ void print_logs(fs::path latest_logs){
     }
 }
 
+void dump_logs(fs::path log_file){
+    if (log_file.empty())
+        return;
+
+    std::ifstream log_line(log_file);
+    if (!log_line) {
+        std::cerr << "Could not open log file " << log_file << '\n';
+        return;
+    }
+
+    std::string line;
+    while (std::getline(log_line, line)) {
+
+        if (line.find("[ERROR]") != std::string::npos)
+            std::cout << "\033[31m" << line << "\033[0m" << endl;
+        else if (line.find("[WARNING]") != std::string::npos)
+            std::cout << "\033[35m" << line << "\033[0m" << endl;
+    }
+}
+
 #endif

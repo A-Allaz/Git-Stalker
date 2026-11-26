@@ -15,7 +15,7 @@ git-stalker --verbose 2 --get-target F "/absolute/path/to/tlsoptions.ts"
 
 Read `../git-stalker-get-target/SKILL.md` for query prerequisites and interpretation. Use `./git-stalker` from the project root if using the local built binary instead of an installed command.
 
-Put `--verbose` before the action: `--get-target`, `--help`, and `--clean-logs` return immediately, so options after them have no effect.
+Put `--verbose` before the action for consistent usage. Use `--show-logs` separately to display the latest existing log; it does not change the verbosity of that log.
 
 `git-stalker --verbose 2` alone enters the interactive UI after setting verbosity. Only launch it if the user wants an interactive session and an appropriate terminal is available.
 
@@ -27,8 +27,8 @@ The application redirects `stderr` to timestamped `.log` files in:
 /home/<user>/.gitstalker/gitstalker_logs/
 ```
 
-`<user>` is selected from `USERNAME`, falling back to `USER`; the code does not derive this directory from `HOME` or XDG variables. Verbose output is not normally printed to the terminal.
+`<user>` is selected from `USERNAME`, falling back to `USER`; this directory is not based on `HOME` or XDG variables. Verbose output is not normally printed to the terminal.
 
-Inspect the newest relevant log with available file-reading tools. Share only diagnostic excerpts and avoid exposing unrelated repository data. Do not delete logs while investigating a failure.
+Use `git-stalker --show-logs` to display the latest log; read `../git-stalker-show-logs/SKILL.md` for selection rules and failure handling. Share only diagnostic excerpts and avoid exposing unrelated repository data. Do not delete logs while investigating a failure.
 
-Always supply a valid verbosity argument. Current parsing uses `atoi` and has incomplete missing-argument checks, so malformed values are not a reliable validation test.
+Always supply a valid verbosity argument (`0`, `1`, or `2`); do not run a bare `--verbose` or use malformed values.
