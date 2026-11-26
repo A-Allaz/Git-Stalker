@@ -47,6 +47,7 @@ OBJECT_NAMES := \
 	function_parser.o \
 	json_handler.o \
 	storage_handler.o \
+	get_handler.o \
 	repository_selector.o \
 	mapping_selector.o \
 	finder.o \

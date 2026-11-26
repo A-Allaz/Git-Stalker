@@ -1,3 +1,8 @@
+---
+name: git-stalker-structure
+description: Follow Git-Stalker file organization, header and source separation, include paths, and header-guard conventions when organizing C++ code.
+---
+
 # Skill: Git-Stalker Code Structure & Repartition
 
 Use this skill when organizing files, defining headers/source separation, header guards, and include paths for git-stalker.

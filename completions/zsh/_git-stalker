@@ -1,11 +1,17 @@
-#compdef git-stalker
-
 _git-stalker() {
+    if (( CURRENT >= 4 )) &&
+        [[ ${words[CURRENT-2]} == --get-target &&
+           ${words[CURRENT-1]} == [rFf] ]]; then
+        _files
+        return $?
+    fi
+
     _arguments -s -S \
         '(-h --help)-h[Show help]' \
         '(-h --help)--help[Show help]' \
         '--clean-logs[Remove log files]' \
-        '--verbose[Set log verbosity]:verbosity:(0 1 2)'
+        '--verbose[Set log verbosity]:verbosity:(0 1 2)' \
+        '--get-target[Select target mode]:target mode:(r F f)'
 }
 
-_git-stalker "$@"
+compdef _git-stalker git-stalker

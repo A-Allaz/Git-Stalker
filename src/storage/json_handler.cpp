@@ -130,6 +130,7 @@ File* json_to_file(json json, Repository* repository){
 }
 
 Repository* json_to_repository(json json){
+    git_libgit2_init();
     Repository* repository = new Repository(json["name"], json["location"]);
 
     log("Loading REPO " + repository->get_name());
@@ -152,6 +153,7 @@ Repository* json_to_repository(json json){
 
     log("Loaded " + repository->get_name());
 
+    git_libgit2_shutdown();
     return repository;
 }
 

@@ -15,6 +15,16 @@ Repository* find_repository_by_name(vector<Repository*> repositories, string nam
     return nullptr;
 }
 
+Repository* find_repository_by_location(vector<Repository*> repositories, string location){
+    for(auto& repository: repositories){
+        if(repository->get_location() == location){
+            return repository;
+        }
+    }
+
+    return nullptr;
+}
+
 File* find_file_by_name(vector<File*> files, string name){
     for(auto& file: files){
         if(file->get_name() == name){

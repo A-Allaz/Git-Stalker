@@ -9,8 +9,13 @@ _git_stalker_completion()
 
     if [[ "$previous" == "--verbose" ]]; then
         COMPREPLY=($(compgen -W '0 1 2' -- "$current"))
+    elif [[ "$previous" == "--get-target" ]]; then
+        COMPREPLY=($(compgen -W 'r F f' -- "$current"))
+    elif [[ "$previous" == "r" ]] || [[ "$previous" == "F" ]] || [[ "$previous" == "f" ]]; then
+        compopt -o filenames
+        mapfile -t COMPREPLY < <(compgen -f -- "$current")
     else
-        COMPREPLY=($(compgen -W '--help -h --verbose --clean-logs' -- "$current"))
+        COMPREPLY=($(compgen -W '--help -h --verbose --clean-logs --get-target' -- "$current"))
     fi
 }
 

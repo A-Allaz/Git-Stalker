@@ -9,6 +9,8 @@ using namespace std;
 
 Repository* find_repository_by_name(vector<Repository*> repositories, string name);
 
+Repository* find_repository_by_location(vector<Repository*> repositories, string location);
+
 File* find_file_by_name(vector<File*> files, string name);
 
 Function* find_function_by_name(vector<Function*> functions, string name);

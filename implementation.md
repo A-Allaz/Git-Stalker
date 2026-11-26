@@ -4,3 +4,4 @@
     - `[<timestamp>] [ERROR]` is for critical errors but that can be overlooked (a repo that wasn't found, a commit that does no exist) or at least not trigger a shutdown.
     - `[<timestamp>] [WARNING]` is for warnings (surprising I know), should be fixed but will not impact the behavior of git-stalker.
     - `[<timestamp>]` is for simple logs.
+ - In `main.cpp` add `cerr.rdbuf(std_cerr);` before every return to avoid segmentation faults at execution time.
