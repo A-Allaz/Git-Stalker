@@ -31,10 +31,13 @@ int main(int argc, const char * argv[]){
     for(int i = 1; i < argc; i++){
         if(string_view(argv[i]) == "--help" || string_view(argv[i]) == "-h"){
             cout << endl << "Welcome to the helper for [Git-Stalker]. You will find the available flags and their description as well as some usage examples for [Git-Stalker]" << endl << endl;
+            cout << "\t--get-target\t" << "[r/F/f] [<origin>] Gives the mapping target of the <origin> repository (r), file (F) or function (f). "<< endl;
+            cout << "\t            \t" << "Repository take the relative access path to the origin." << endl;
+            cout << "\t            \t" << "File, the relative path to the origin file." << endl;
+            cout << "\t            \t" << "Function takes the file path and origin function name." << endl;
             cout << "\t--help, -h  \t" << "Displays this helper." << endl;
             cout << "\t--verbose X \t" << "Set the verbosity for the logs. X must be between 0 and 2." << endl;
             cout << "\t--clean-logs\t" << "Clean the logs created by Git-Stalker" << endl;
-            cout << "\t--get-target\t" << "[r/F/f] [<origin>] Gives the mapping target of the <origin> repository (r), file (F) or function (f)" << endl;
 
             cerr.rdbuf(std_cerr);
             return 0;
@@ -77,25 +80,51 @@ int main(int argc, const char * argv[]){
             }
 
             if(string_view(argv[i + 1]) == "r"){ // Repository
+                const fs::path origin_path = fs::absolute(argv[i + 2]).lexically_normal();
+                string target_output = get_repository_target(origin_path);
 
+                if(target_output == "NULL"){
+                    cout << "Did not found any mapping target for " << argv[i + 2] << endl;
+                } else {
+                    cout << argv[i + 2] << " is mapped to:" << endl;
+                    cout << "\t" << target_output << endl;
+                }
             }
             else if(string_view(argv[i + 1]) == "F"){ // File
                 const fs::path origin_path = fs::absolute(argv[i + 2]).lexically_normal();
+                const vector<string> targets = get_file_target(origin_path.string());
 
-                const vector<string> target_paths = get_file_target(origin_path.string());
-
-                if(!target_paths.size()){
+                if(!targets.size()){
                     cout << "Did not found any mapping target for " << argv[i + 2] << endl;
                 } else {
                     cout << argv[i + 2] << " is mapped to:" << endl;
 
-                    for(const auto& target: target_paths){
+                    for(const auto& target: targets){
                         cout << "\t" << target << endl;
                     }
                 }
             }
             else if(string_view(argv[i + 1]) == "f"){ // Function
+                if(i > argc - 3){
+                    log("[ERROR] Must specify a target function name");
+                    cerr.rdbuf(std_cerr);
+                    return 1;
+                }
 
+                const fs::path origin_file_path = fs::absolute(argv[i + 2]).lexically_normal();
+                const string origin_function_name = argv[i + 3];
+
+                const vector<string> targets = get_function_target(origin_file_path.string(), origin_function_name);
+
+                if(!targets.size()){
+                    cout << "Did not found any mapping target for " << argv[i + 3] << " at " << argv[i + 2] << endl;
+                } else {
+                    cout << argv[i + 3] << " is mapped to:" << endl;
+
+                    for(const auto& target: targets){
+                        cout << "\t" << target << endl;
+                    }
+                }
             } else {
                 log("[ERROR] Invalid target type. Must be 'r', 'F' or 'f'");
                 cerr.rdbuf(std_cerr);

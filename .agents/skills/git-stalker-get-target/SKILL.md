@@ -12,7 +12,7 @@ Treat all three target modes as supported. Modes are case-sensitive: `r` selects
 ### Repository (`r`)
 
 ```bash
-git-stalker --get-target r "<repository-name>"
+git-stalker --get-target r "/absolute/path/to/repo"
 ```
 
 Supply the origin repository's exact name from the mapping JSON. The result is the target repository name as formatted/stored in the JSON, not a filesystem path or file URI. Preserve its spelling and formatting; do not derive a replacement name from a directory basename.
@@ -20,7 +20,7 @@ Supply the origin repository's exact name from the mapping JSON. The result is t
 ### File (`F`)
 
 ```bash
-git-stalker --get-target F "/absolute/path/to/tlsoptions.ts"
+git-stalker --get-target F "/absolute/path/to/file.ts"
 ```
 
 Supply the source file path. File targets are paths; function targets include the target function name and its containing file. The file-query CLI prints a heading and targets prefixed with `file://`. A function target may be rendered as `functionName at filePath`, so do not assume every output line is a directly openable file URI.
@@ -28,10 +28,10 @@ Supply the source file path. File targets are paths; function targets include th
 ### Function (`f`)
 
 ```bash
-git-stalker --get-target f "<function-name>"
+git-stalker --get-target f "/absolute/path/to/file.ts <function-name>"
 ```
 
-Supply the source function's exact stored name. For a mapped file target, report the target file name/path and any function name supplied by the result. For a mapped function target, report the target function's name together with its containing file. Preserve the distinction between a file target and a function target; do not invent a function name for a file-only target.
+Supply the source function's exact stored name and the relative path to it's parent's file. For a mapped file target, report the target file path prefixed with `file://`. For a mapped function target, report the target function's name together with its containing file as in `functionName at filePath`. Preserve the distinction between a file target and a function target; do not invent a function name for a file-only target.
 
 If the source function name is ambiguous across files or repositories, inspect the mapping records or ask which source the user means. Do not invent an additional CLI disambiguation argument; check the installed command's accepted syntax before adding one.
 
@@ -43,8 +43,8 @@ For diagnostic logging, put verbosity before the query:
 
 ```bash
 git-stalker --verbose 2 --get-target r "<repository-name>"
-git-stalker --verbose 2 --get-target F "/absolute/path/to/tlsoptions.ts"
-git-stalker --verbose 2 --get-target f "<function-name>"
+git-stalker --verbose 2 --get-target F "/absolute/path/to/file.ts"
+git-stalker --verbose 2 --get-target f "/absolute/path/to/file.ts <function-name>"
 ```
 
 Always supply both a mode and an origin. Queries exit without starting the interactive UI.
@@ -53,7 +53,7 @@ Always supply both a mode and an origin. Queries exit without starting the inter
 
 - Resolve which file the user means. If a basename is ambiguous, ask or inspect the workspace rather than choosing arbitrarily.
 - Prefer an absolute path. File mode converts relative paths to absolute, lexically normalized paths relative to the current working directory; it does not search all repositories by basename or resolve symlinks to a canonical path.
-- The stored file name must match that resulting path exactly. `tlsoptions.ts` works only when the working directory makes it resolve to the stored path.
+- The stored file name must match that resulting path exactly. `file.ts` works only when the working directory makes it resolve to the stored path.
 - Do not apply file-path normalization to repository or function names.
 
 ## Stored mapping prerequisites
