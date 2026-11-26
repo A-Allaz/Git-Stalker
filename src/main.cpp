@@ -27,6 +27,30 @@ int main(int argc, const char * argv[]){
 // No-Head mode & Options of Git-Stalker
 //-------------------------------------------------------------------------------------------------
 
+    // Handle --verbose option
+
+    for(int i = 1; i < argc; i++){
+        if(string_view(argv[i]) == "--verbose"){
+            if(i > argc - 1){
+                log("[ERROR] Value must be provided for verbose");
+                cerr.rdbuf(std_cerr);
+                return 1;
+            }
+
+            const int value = atoi(argv[i + 1]);
+            
+            if(value >= 0 && value < 3){
+                verbose = value;
+            } else {
+                log("[ERROR] Invalid value for '--verbose'. Must be between 0 and 2");
+                cerr.rdbuf(std_cerr);
+                return 1;
+            }
+
+            break;
+        }
+    }
+
     // Handle git-stalker's options
     for(int i = 1; i < argc; i++){
         if(string_view(argv[i]) == "--help" || string_view(argv[i]) == "-h"){
@@ -47,25 +71,6 @@ int main(int argc, const char * argv[]){
 
             cerr.rdbuf(std_cerr);
             return 0;
-        }
-        else if(string_view(argv[i]) == "--verbose"){
-            if(i > argc - 1){
-                log("[ERROR] Value must be provided for verbose");
-                cerr.rdbuf(std_cerr);
-                return 1;
-            }
-
-            const int value = atoi(argv[i + 1]);
-            
-            if(value >= 0 && value < 3){
-                verbose = value;
-            } else {
-                log("[ERROR] Invalid value for '--verbose'. Must be between 0 and 2");
-                cerr.rdbuf(std_cerr);
-                return 1;
-            }
-
-            i++;
         }
         else if(string_view(argv[i]) == "--get-target"){
             if(i > argc - 2){
