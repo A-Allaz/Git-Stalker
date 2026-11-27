@@ -150,6 +150,8 @@ int main(int argc, const char * argv[]){
 
             cerr.rdbuf(std_cerr);
             return 0;
+        } else {
+            log(string{"[WARNING] Unknown option: "} + argv[i] + string{" will be ignored"});
         }
     }
 

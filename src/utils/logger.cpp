@@ -84,7 +84,7 @@ void print_logs(fs::path latest_logs){
         if (line.find("[ERROR]") != std::string::npos)
             color = "\033[31m"; // Red
         else if (line.find("[WARNING]") != std::string::npos)
-            color = "\033[35m"; // Magenta (purple)
+            color = "\033[95m"; // Magenta (purple)
 
         std::cout << color << line << "\033[0m" << endl;
     }
@@ -106,7 +106,7 @@ void dump_logs(fs::path log_file){
         if (line.find("[ERROR]") != std::string::npos)
             std::cout << "\033[31m" << line << "\033[0m" << endl;
         else if (line.find("[WARNING]") != std::string::npos)
-            std::cout << "\033[35m" << line << "\033[0m" << endl;
+            std::cout << "\033[95m" << line << "\033[0m" << endl;
     }
 }
 
